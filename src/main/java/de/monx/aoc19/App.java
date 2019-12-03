@@ -1,7 +1,9 @@
 package de.monx.aoc19;
 
+import de.monx.aoc19.helper.TDay;
 import de.monx.aoc19.t01.T01;
 import de.monx.aoc19.t02.T02;
+import de.monx.aoc19.t03.T03;
 
 public class App {
 	final static String path = "Input/";
@@ -11,22 +13,29 @@ public class App {
 	
 	
 	public static void main(String[] args) {
-		String day = "02";
-		String inputFile = "input";
+		String day = "03";
+		String inputFile = "p1ex1";
+//		String inputFile = "input";
 		
 		execDay(day, inputFile, _PBoth);
 	}
 
 	static void execDay(String day, String inputFile, int part) {
+		TDay tDay = null;
 		switch (day) {
 		case "01":
-			new T01(path, day).inputFile(inputFile).exec().clean();
+			tDay = new T01(path, day);
 			break;
 		case "02":
-			new T02(path, day).inputFile(inputFile).exec().clean();
+			tDay = new T02(path, day);
+			break;
+		case "03":
+			tDay = new T03(path, day);
 			break;
 		default:
-			break;
+			System.err.println("Invalid Day");
+			return;
 		}
+		tDay.inputFile(inputFile).exec().clean();
 	}
 }

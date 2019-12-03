@@ -2,7 +2,7 @@ package de.monx.aoc19.t01;
 
 import java.util.Iterator;
 
-import de.monx.aoc19.TDay;
+import de.monx.aoc19.helper.TDay;
 
 public class T01 extends TDay {
 

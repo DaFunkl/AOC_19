@@ -2,7 +2,7 @@ package de.monx.aoc19.t02;
 
 import java.util.Iterator;
 
-import de.monx.aoc19.TDay;
+import de.monx.aoc19.helper.TDay;
 
 public class T02 extends TDay {
 	final static int _END = 99;

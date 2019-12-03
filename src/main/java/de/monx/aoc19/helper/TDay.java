@@ -1,4 +1,4 @@
-package de.monx.aoc19;
+package de.monx.aoc19.helper;
 
 import java.io.IOException;
 import java.nio.file.Files;
