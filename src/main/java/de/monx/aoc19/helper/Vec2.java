@@ -16,6 +16,10 @@ public class Vec2 {
 		return deltaAbs(x, v.x) + deltaAbs(y, v.y);
 	}
 
+	public int manhattenDistance() {
+		return deltaAbs(x, 0) + deltaAbs(y, 0);
+	}
+	
 	private int deltaAbs(int a, int b) {
 		return Math.abs(a - b);
 	}

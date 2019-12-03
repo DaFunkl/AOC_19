@@ -14,8 +14,8 @@ public class App {
 	
 	public static void main(String[] args) {
 		String day = "03";
-		String inputFile = "p1ex1";
-//		String inputFile = "input";
+//		String inputFile = "p1ex0";
+		String inputFile = "input";
 		
 		execDay(day, inputFile, _PBoth);
 	}
