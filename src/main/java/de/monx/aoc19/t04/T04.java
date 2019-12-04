@@ -3,6 +3,7 @@ package de.monx.aoc19.t04;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Scanner;
 
 import de.monx.aoc19.helper.TDay;
 
@@ -30,7 +31,7 @@ public class T04 extends TDay {
 	void part1(int min, int max) {
 		int count = 0;
 		int count2 = 0;
-		for (int i = min; i <= max; i++) {
+		for (int i = min; i <= max; i = getNextAdj(i)) {
 			int adjCount = meetsP1Criteria(i);
 			if (adjCount > 0) {
 				count++;
@@ -41,6 +42,30 @@ public class T04 extends TDay {
 		}
 		System.out.println("Part1: " + count);
 		System.out.println("Part2: " + count2);
+	}
+
+	int getNextAdj(int number) {
+		int[] arr = numberToDigitArray(number);
+		int idx = 0;
+		for (int i = 0; i < arr.length - 1; i++) {
+			if (arr[i + 1] < arr[i]) {
+				idx = i;
+				break;
+			}
+		}
+		StringBuilder nrStr = new StringBuilder();
+		for (int i = 0; i < arr.length; i++) {
+			if (i < idx) {
+				nrStr.append(arr[i]);
+			} else {
+				nrStr.append(arr[idx]);
+			}
+		}
+		int ret = Integer.valueOf(nrStr.toString());
+		if (ret <= number) {
+			ret = number + 1;
+		}
+		return ret;
 	}
 
 	int meetsP1Criteria(int number) {
@@ -56,19 +81,19 @@ public class T04 extends TDay {
 				return -1;
 			}
 			if (n == arr[i]) {
-				if(adj.containsKey(n)) {
-					adj.put(n, adj.get(n)+1);
+				if (adj.containsKey(n)) {
+					adj.put(n, adj.get(n) + 1);
 				} else {
 					adj.put(n, 2);
 				}
 			}
 			n = arr[i];
 		}
-		if(adj.size() == 0) {
+		if (adj.size() == 0) {
 			return -1;
 		}
-		for(int i : adj.keySet()) {
-			if(adj.get(i) == 2) {
+		for (int i : adj.keySet()) {
+			if (adj.get(i) == 2) {
 				return 2;
 			}
 		}

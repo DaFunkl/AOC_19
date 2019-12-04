@@ -8,13 +8,26 @@ import de.monx.aoc19.t04.T04;
 
 public class App {
 	final static String path = "Input/";
-	
-	
+
 	public static void main(String[] args) {
 		String day = "04";
 		String inputFile = "input";
 		
 		execDay(day, inputFile);
+	}
+
+	static void testInMiliSec() {
+		long start = System.currentTimeMillis();
+		for (int i = 1; i <= 4; i++) {
+
+			String day = "0" + i;
+			String inputFile = "input";
+
+			execDay(day, inputFile);
+			long end = System.currentTimeMillis();
+			System.out.println("Time: " + (end - start) + " ms");
+			start = end;
+		}
 	}
 
 	static void execDay(String day, String inputFile) {
