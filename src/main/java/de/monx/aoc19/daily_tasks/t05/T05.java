@@ -20,7 +20,7 @@ public class T05 extends TDay {
 	final static int _R1 = 1;
 	final static int _R2 = 2;
 	final static int _DE = 3;
-	int inputPart1 = 1;
+	int inputOpCode3 = 1;
 	int[] stack = null;
 	String out = "";
 
@@ -43,7 +43,7 @@ public class T05 extends TDay {
 
 	void init(int input, String line) {
 		parseLineToStack(line);
-		inputPart1 = input;
+		inputOpCode3 = input;
 	}
 
 	void parseLineToStack(String line) {
@@ -52,30 +52,6 @@ public class T05 extends TDay {
 		for (int i = 0; i < arr.length; i++) {
 			stack[i] = Integer.valueOf(arr[i]);
 		}
-	}
-
-	boolean stepper = false;
-
-	void executeStackStepper() {
-		stepper = true;
-		int pointer = 0;
-		while (pointer < stack.length) {
-			int inc = 0;
-			System.out.println("print Stack: Pointer: " + pointer);
-			printStack(pointer, pointer + 4, pointer);
-			if (stack[pointer] < 10) {
-				inc = executeOpCode(pointer, new int[] { stack[pointer], 0, 0, 0 });
-			} else {
-				inc = executeOpCode(pointer, parseParameterModeOpCode(stack[pointer]));
-			}
-			if (inc == 1) {
-				return;
-			}
-			pointer += inc;
-			System.out.println("next Pointer: " + pointer);
-//			new Scanner(System.in).nextLine();
-		}
-		stepper = false;
 	}
 
 	void executeStack() {
@@ -113,10 +89,12 @@ public class T05 extends TDay {
 	 * @return increment pointer by this amount after execute
 	 */
 	int executeOpCode(int pointer, int[] pmOp) {
+		// Halting: 99
 		if (pmOp[_OP] == _END) {
-			System.out.println("\nEnd reached: vals[" + pointer + "]: " + stack[pointer]);
+			System.out.println("\nEnd reached: Stack[" + pointer + "]: " + stack[pointer]);
 			return 1;
 		}
+		// 1 Arg Operator: Output: 4
 		int arg1 = pmOp[1] == 0 ? stack[stack[pointer + _R1]] : stack[pointer + _R1];
 		if (pmOp[_OP] == _OUT) {
 			if (pmOp[1] == 1) {
@@ -126,13 +104,16 @@ public class T05 extends TDay {
 			}
 			return 2;
 		}
+		// Input: 3
 		if (pmOp[_OP] == _INP) {
 			stack[stack[pointer + 1]] = getInput();
 			return 2;
 		}
-
 		int arg2 = pmOp[2] == 0 ? stack[stack[pointer + _R2]] : stack[pointer + _R2];
 		int dest = stack[pointer + _DE];
+		// Operators using 2-3 Args
+		// Add: 1, Mul: 2, LTH(LessThen): 7, EQU(Equals): 8, JIT(jump if true): 5,
+		// JIF(jump if false): 6
 		switch (pmOp[_OP]) {
 		case _ADD:
 			stack[dest] = arg1 + arg2;
@@ -140,16 +121,16 @@ public class T05 extends TDay {
 		case _MUL:
 			stack[dest] = arg1 * arg2;
 			return 4;
-		case _JIT:
-			return arg1 != 0 ? arg2 - pointer : 3;
-		case _JIF:
-			return arg1 == 0 ? arg2 - pointer : 3;
 		case _LTH:
 			stack[dest] = arg1 < arg2 ? 1 : 0;
 			return 4;
 		case _EQU:
 			stack[dest] = arg1 == arg2 ? 1 : 0;
 			return 4;
+		case _JIT:
+			return arg1 != 0 ? arg2 - pointer : 3;
+		case _JIF:
+			return arg1 == 0 ? arg2 - pointer : 3;
 		default:
 			System.err.println("Error: executeOpCodePM(" + pointer + ", " + Arrays.toString(pmOp) + ")");
 			return -1;
@@ -171,6 +152,6 @@ public class T05 extends TDay {
 	}
 
 	int getInput() {
-		return inputPart1;
+		return inputOpCode3;
 	}
 }

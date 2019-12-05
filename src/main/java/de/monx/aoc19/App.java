@@ -12,6 +12,11 @@ public class App {
 	static int currentDay = 5;
 
 	public static void main(String[] args) {
+//		executeDay();
+		testInMiliSec();
+	}
+
+	static void executeDay() {
 		String day = "" + currentDay;
 		if (currentDay < 10) {
 			day = "0" + day;
@@ -20,7 +25,7 @@ public class App {
 
 		execDay(day, inputFile);
 	}
-
+	
 	static void testInMiliSec() {
 		long start = System.currentTimeMillis();
 		for (int i = 1; i <= 5; i++) {
@@ -30,7 +35,7 @@ public class App {
 
 			execDay(day, inputFile);
 			long end = System.currentTimeMillis();
-			System.out.println("Time: " + (end - start) + " ms");
+			System.out.println("--------------------> Time: " + (end - start) + " ms");
 			start = end;
 		}
 	}
