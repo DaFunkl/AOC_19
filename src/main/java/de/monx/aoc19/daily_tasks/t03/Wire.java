@@ -1,4 +1,4 @@
-package de.monx.aoc19.t03;
+package de.monx.aoc19.daily_tasks.t03;
 
 import java.util.ArrayList;
 import java.util.List;

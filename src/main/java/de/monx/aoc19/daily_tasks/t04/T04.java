@@ -1,4 +1,4 @@
-package de.monx.aoc19.t04;
+package de.monx.aoc19.daily_tasks.t04;
 
 import java.util.HashMap;
 import java.util.Iterator;

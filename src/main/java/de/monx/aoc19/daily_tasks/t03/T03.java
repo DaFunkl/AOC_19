@@ -1,4 +1,4 @@
-package de.monx.aoc19.t03;
+package de.monx.aoc19.daily_tasks.t03;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,11 +25,6 @@ public class T03 extends TDay {
 		}
 		System.out.println("Part1: " + part1(wires));
 		return this;
-	}
-
-	List<Vec2> getIntersections(List<Wire> wires) {
-
-		return null;
 	}
 
 	Boundry getBounds(List<Wire> wires) {

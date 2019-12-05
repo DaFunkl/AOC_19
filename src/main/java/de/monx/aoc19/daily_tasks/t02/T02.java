@@ -1,4 +1,4 @@
-package de.monx.aoc19.t02;
+package de.monx.aoc19.daily_tasks.t02;
 
 import java.util.Iterator;
 
