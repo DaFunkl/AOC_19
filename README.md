@@ -6,6 +6,7 @@
 2. [Day 03](https://github.com/DaFunkl/AOC_19/blob/master/src/main/java/de/monx/aoc19/daily_tasks/t03/T03.java) 
 2. [Day 04](https://github.com/DaFunkl/AOC_19/blob/master/src/main/java/de/monx/aoc19/daily_tasks/t04/T04.java) 
 2. [Day 05](https://github.com/DaFunkl/AOC_19/blob/master/src/main/java/de/monx/aoc19/daily_tasks/t05/T05.java) 
+2. [Day 06](https://github.com/DaFunkl/AOC_19/blob/master/src/main/java/de/monx/aoc19/daily_tasks/t06/T06.java) 
 
 Written in Java. Using Maven, might import some Dependencies, don't need any yet.
 Using TDay as basic Class for all daily tasks to "automate" executing each days task.
