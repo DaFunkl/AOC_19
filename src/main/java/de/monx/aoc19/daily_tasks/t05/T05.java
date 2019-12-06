@@ -2,7 +2,6 @@ package de.monx.aoc19.daily_tasks.t05;
 
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.Scanner;
 
 import de.monx.aoc19.helper.TDay;
 
@@ -23,19 +22,28 @@ public class T05 extends TDay {
 	int inputOpCode3 = 1;
 	int[] stack = null;
 	String out = "";
-
+	int p1 = 0;
+	int p2 = 0;
+	
+	
 	public T05(String path, String day) {
 		super(path, day);
 	}
 
+	public T05 setupP1P2Input(int p1, int p2) {
+		this.p1 = p1;
+		this.p2 = p2;
+		return this;
+	}
+	
 	@Override
 	public TDay exec() {
 		Iterator<String> it = stream.iterator();
 		String line = it.next();
 		System.out.println("Part: 1");
-		init(1, line);
+		init(p1, line);
 		executeStack();
-		init(5, line);
+		init(p2, line);
 		System.out.println("Part: 2");
 		executeStack();
 		return this;

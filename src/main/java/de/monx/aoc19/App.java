@@ -5,15 +5,16 @@ import de.monx.aoc19.daily_tasks.t02.T02;
 import de.monx.aoc19.daily_tasks.t03.T03;
 import de.monx.aoc19.daily_tasks.t04.T04;
 import de.monx.aoc19.daily_tasks.t05.T05;
+import de.monx.aoc19.daily_tasks.t06.T06;
 import de.monx.aoc19.helper.TDay;
 
 public class App {
 	final static String path = "Input/";
-	static int currentDay = 5;
+	static int currentDay = 6;
 
 	public static void main(String[] args) {
-//		executeDay();
-		testInMiliSec();
+		executeDay();
+//		testInMiliSec(6,6);
 	}
 
 	static void executeDay() {
@@ -26,9 +27,9 @@ public class App {
 		execDay(day, inputFile);
 	}
 	
-	static void testInMiliSec() {
+	static void testInMiliSec(int fromDay, int toDay) {
 		long start = System.currentTimeMillis();
-		for (int i = 1; i <= 5; i++) {
+		for (int i = fromDay; i <= toDay; i++) {
 
 			String day = "0" + i;
 			String inputFile = "input";
@@ -56,7 +57,10 @@ public class App {
 			tDay = new T04(path, day);
 			break;
 		case "05":
-			tDay = new T05(path, day);
+			tDay = new T05(path, day).setupP1P2Input(1, 5);
+			break;
+		case "06":
+			tDay = new T06(path, day);
 			break;
 		default:
 			System.err.println("Invalid Day");
