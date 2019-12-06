@@ -13,8 +13,8 @@ public class App {
 	static int currentDay = 6;
 
 	public static void main(String[] args) {
-		executeDay();
-//		testInMiliSec(6,6);
+//		executeDay();
+		testInMiliSec(6,6);
 	}
 
 	static void executeDay() {
