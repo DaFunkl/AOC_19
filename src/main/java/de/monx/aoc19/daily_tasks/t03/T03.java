@@ -9,10 +9,6 @@ import de.monx.aoc19.helper.Vec2;
 
 public class T03 extends TDay {
 
-	public T03(String path, String day) {
-		super(path, day);
-	}
-
 	@Override
 	public TDay exec() {
 		Iterator<String> it = stream.iterator();

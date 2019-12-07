@@ -6,15 +6,16 @@ import de.monx.aoc19.daily_tasks.t03.T03;
 import de.monx.aoc19.daily_tasks.t04.T04;
 import de.monx.aoc19.daily_tasks.t05.T05;
 import de.monx.aoc19.daily_tasks.t06.T06;
+import de.monx.aoc19.daily_tasks.t07.T07;
 import de.monx.aoc19.helper.TDay;
 
 public class App {
 	final static String path = "Input/";
-	static int currentDay = 6;
+	static int currentDay = 7;
 
 	public static void main(String[] args) {
-//		executeDay();
-		testInMiliSec(6,6);
+		executeDay();
+//		testInMiliSec(6,6);
 	}
 
 	static void executeDay() {
@@ -22,11 +23,11 @@ public class App {
 		if (currentDay < 10) {
 			day = "0" + day;
 		}
-		String inputFile = "input";
+		String inputFile = "ex1";
 
 		execDay(day, inputFile);
 	}
-	
+
 	static void testInMiliSec(int fromDay, int toDay) {
 		long start = System.currentTimeMillis();
 		for (int i = fromDay; i <= toDay; i++) {
@@ -42,30 +43,24 @@ public class App {
 	}
 
 	static void execDay(String day, String inputFile) {
-		TDay tDay = null;
+		TDay tDay = fetchDay(day);
+		tDay.init(path, day).inputFile(inputFile).exec().clean();
+	}
+
+	// @formatter:off
+	static TDay fetchDay(String day) {
 		switch (day) {
-		case "01":
-			tDay = new T01(path, day);
-			break;
-		case "02":
-			tDay = new T02(path, day);
-			break;
-		case "03":
-			tDay = new T03(path, day);
-			break;
-		case "04":
-			tDay = new T04(path, day);
-			break;
-		case "05":
-			tDay = new T05(path, day).setupP1P2Input(1, 5);
-			break;
-		case "06":
-			tDay = new T06(path, day);
-			break;
+		case "01": return new T01();
+		case "02": return new T02();
+		case "03": return new T03();
+		case "04": return new T04();
+		case "05": return new T05().setupP1P2Input(1, 5);
+		case "06": return new T06();
+		case "07": return new T07();
 		default:
 			System.err.println("Invalid Day");
-			return;
+			return new TDay();
 		}
-		tDay.inputFile(inputFile).exec().clean();
 	}
+	// @formatter:on
 }

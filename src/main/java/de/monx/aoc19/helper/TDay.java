@@ -5,14 +5,18 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class TDay {
-	String path = "";
+	@Getter @Setter  private String path = "";
 
-	public TDay(String path, String day) {
+	public TDay init(String path, String day) {
 		this.path = path + day + "/";
-		System.out.println("Executing: " + day);
+		System.out.println("Init: " + day);
+		return this;
 	}
-
+	
 	protected Stream<String> stream;
 
 	public TDay inputFile(String inputFileName) {
@@ -25,7 +29,7 @@ public class TDay {
 		}
 		return this;
 	}
-
+	
 	public TDay exec() {
 		return this;
 	}
@@ -33,4 +37,5 @@ public class TDay {
 	public void clean() {
 		this.stream.close();
 	}
+
 }

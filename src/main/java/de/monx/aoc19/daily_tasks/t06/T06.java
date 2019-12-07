@@ -8,10 +8,6 @@ import de.monx.aoc19.helper.TDay;
 
 public class T06 extends TDay {
 
-	public T06(String path, String day) {
-		super(path, day);
-	}
-
 	@Override
 	public TDay exec() {
 		// Part 1:

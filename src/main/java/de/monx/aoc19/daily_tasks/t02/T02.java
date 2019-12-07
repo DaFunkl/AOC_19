@@ -13,10 +13,6 @@ public class T02 extends TDay {
 	final static int _R2 = 2;
 	final static int _DE = 3;
 
-	public T02(String path, String day) {
-		super(path, day);
-	}
-
 	@Override
 	public TDay exec() {
 		Iterator<String> it = stream.iterator();
