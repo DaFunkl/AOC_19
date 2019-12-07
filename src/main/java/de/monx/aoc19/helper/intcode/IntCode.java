@@ -18,18 +18,44 @@ public class IntCode {
 	final static int _R1 = 1;
 	final static int _R2 = 2;
 	final static int _DE = 3;
+	final static int _STATE_INPUT = 1;
+	final static int _STATE_HALT = 99;
+	final static int _STATE_RUNNING = 2;
+	final static int _STATE_NONE = 0;
+
 	int inputOpCode3 = 1;
 	int[] stack = null;
-	String out = "";
+	int out = 0;
+	int state = _STATE_NONE;
 	int p1 = 0;
 	int p2 = 0;
 	int execP = 3;
 	List<Integer> output = new ArrayList<>();
-
+	int inputReg = 0;
+	int outputReg = 0;
+	
 	public void init(int input, int[] stack) {
 		output = new ArrayList<>();
 		this.stack = stack;
 		inputOpCode3 = input;
+	}
+
+	public int execIO() {
+		state = _STATE_RUNNING;
+		int pointer = 0;
+		while (pointer < stack.length) {
+			int inc = 0;
+			if (stack[pointer] < 10) {
+				inc = executeOpCode(pointer, new int[] { stack[pointer], 0, 0, 0 }, true);
+			} else {
+				inc = executeOpCode(pointer, parseParameterModeOpCode(stack[pointer]), true);
+			}
+			if (state == _STATE_HALT || state == _STATE_INPUT) {
+				break;
+			}
+			pointer += inc;
+		}
+		return state;
 	}
 
 	public List<Integer> executeStack() {
@@ -37,9 +63,9 @@ public class IntCode {
 		while (pointer < stack.length) {
 			int inc = 0;
 			if (stack[pointer] < 10) {
-				inc = executeOpCode(pointer, new int[] { stack[pointer], 0, 0, 0 });
+				inc = executeOpCode(pointer, new int[] { stack[pointer], 0, 0, 0 }, false);
 			} else {
-				inc = executeOpCode(pointer, parseParameterModeOpCode(stack[pointer]));
+				inc = executeOpCode(pointer, parseParameterModeOpCode(stack[pointer]), false);
 			}
 			if (inc == 1) {
 				break;
@@ -67,7 +93,7 @@ public class IntCode {
 	 * @param pointer current pointer position
 	 * @return increment pointer by this amount after execute
 	 */
-	int executeOpCode(int pointer, int[] pmOp) {
+	int executeOpCode(int pointer, int[] pmOp, boolean io) {
 		// Halting: 99
 		if (pmOp[_OP] == _END) {
 			System.out.println("\nEnd reached: Stack[" + pointer + "]: " + stack[pointer]);
@@ -77,10 +103,11 @@ public class IntCode {
 		int arg1 = pmOp[1] == 0 ? stack[stack[pointer + _R1]] : stack[pointer + _R1];
 		if (pmOp[_OP] == _OUT) {
 			if (pmOp[1] == 1) {
-				output.add(stack[pointer + 1]);
+				this.outputReg = stack[pointer + 1];
 			} else {
-				output.add(stack[stack[pointer + 1]]);
+				this.outputReg = stack[stack[pointer + 1]];
 			}
+			output.add(this.outputReg);
 			return 2;
 		}
 		// Input: 3
@@ -133,7 +160,7 @@ public class IntCode {
 	int getInput() {
 		return inputOpCode3;
 	}
-	
+
 	public int[] parseLineToStack(String line) {
 		String[] arr = line.split(",");
 		int[] stack = new int[arr.length];
