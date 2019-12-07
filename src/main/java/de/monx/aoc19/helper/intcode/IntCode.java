@@ -19,10 +19,11 @@ public class IntCode {
 	final static int _R1 = 1;
 	final static int _R2 = 2;
 	final static int _DE = 3;
-	final static int _STATE_INPUT = 1;
-	final static int _STATE_HALT = 99;
-	final static int _STATE_RUNNING = 2;
-	final static int _STATE_NONE = 0;
+	public final static int _STATE_INPUT_WAITING = 1;
+	public final static int _STATE_INPUT_SUBMITTED = 2;
+	public final static int _STATE_INPUT_RESUMED = 3;
+	public final static int _STATE_HALT = 99;
+	public final static int _STATE_NONE = 0;
 
 	int[] inputOpCode3 = new int[0];
 	int inputPointer = 0;
@@ -32,19 +33,43 @@ public class IntCode {
 	int p1 = 0;
 	int p2 = 0;
 	List<Integer> output = new ArrayList<>();
-	int inputReg = 0;
-	int outputReg = 0;
+	public int outputReg = 0;
+	boolean outputReady = false;
 
+	public int getOutput() {
+		if(outputReady) {
+			outputReady = false;
+		} else {
+			System.err.println("getOuptut called, wasn't ready yet");
+			new Scanner(System.in).nextLine();
+		}
+		return outputReg;
+	}
+	
+	public void setOutput(int out) {
+		this.outputReg = out;
+		outputReady = true;
+	}
+	
 	public void init(int[] input, int[] stack) {
 		output = new ArrayList<>();
-		this.stack = stack;
+		setStack(stack);
 		inputOpCode3 = input;
 		inputPointer = 0;
 	}
 
+	public void setStack(int[] stack) {
+		this.stack = stack;
+	}
+
+	public void setInput(int in) {
+		inputOpCode3 = new int[] { in };
+		inputPointer = 0;
+		state = _STATE_INPUT_SUBMITTED;
+	}
+
+	int pointer = 0;
 	public int execIO() {
-		state = _STATE_RUNNING;
-		int pointer = 0;
 		while (pointer < stack.length) {
 			int inc = 0;
 			if (stack[pointer] < 10) {
@@ -52,7 +77,7 @@ public class IntCode {
 			} else {
 				inc = executeOpCode(pointer, parseParameterModeOpCode(stack[pointer]), true);
 			}
-			if (state == _STATE_HALT || state == _STATE_INPUT) {
+			if (state == _STATE_HALT || state == _STATE_INPUT_WAITING) {
 				break;
 			}
 			pointer += inc;
@@ -98,21 +123,27 @@ public class IntCode {
 	int executeOpCode(int pointer, int[] pmOp, boolean io) {
 		// Halting: 99
 		if (pmOp[_OP] == _END) {
+			state = _STATE_HALT;
 			return 1;
 		}
 		// 1 Arg Operator: Output: 4
 		int arg1 = pmOp[1] == 0 ? stack[stack[pointer + _R1]] : stack[pointer + _R1];
 		if (pmOp[_OP] == _OUT) {
 			if (pmOp[1] == 1) {
-				this.outputReg = stack[pointer + 1];
+				setOutput(stack[pointer + 1]);
 			} else {
-				this.outputReg = stack[stack[pointer + 1]];
+				setOutput(stack[stack[pointer + 1]]);
 			}
 			output.add(this.outputReg);
 			return 2;
 		}
 		// Input: 3
 		if (pmOp[_OP] == _INP) {
+			if (io && state != _STATE_INPUT_SUBMITTED) {
+				state = _STATE_INPUT_WAITING;
+				return 2;
+			}
+			state = _STATE_INPUT_RESUMED;
 			stack[stack[pointer + 1]] = getInput();
 			return 2;
 		}
