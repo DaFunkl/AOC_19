@@ -13,7 +13,7 @@ public class T07 extends TDay {
 	public TDay exec() {
 		Iterator<String> it = stream.iterator();
 		String line = it.next();
-//		part1(line);
+		part1(line);
 		part2(line);
 		return this;
 	}
