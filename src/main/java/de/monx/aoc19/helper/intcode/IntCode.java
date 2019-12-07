@@ -3,6 +3,7 @@ package de.monx.aoc19.helper.intcode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class IntCode {
 	final static int _END = 99;
@@ -18,18 +19,19 @@ public class IntCode {
 	final static int _R1 = 1;
 	final static int _R2 = 2;
 	final static int _DE = 3;
-	int inputOpCode3 = 1;
+	int[] inputOpCode3 = new int[0];
+	int inputPointer = 0;
 	int[] stack = null;
 	String out = "";
 	int p1 = 0;
 	int p2 = 0;
-	int execP = 3;
 	List<Integer> output = new ArrayList<>();
 
-	public void init(int input, int[] stack) {
+	public void init(int[] input, int[] stack) {
 		output = new ArrayList<>();
 		this.stack = stack;
 		inputOpCode3 = input;
+		inputPointer = 0;
 	}
 
 	public List<Integer> executeStack() {
@@ -70,7 +72,6 @@ public class IntCode {
 	int executeOpCode(int pointer, int[] pmOp) {
 		// Halting: 99
 		if (pmOp[_OP] == _END) {
-			System.out.println("\nEnd reached: Stack[" + pointer + "]: " + stack[pointer]);
 			return 1;
 		}
 		// 1 Arg Operator: Output: 4
@@ -131,10 +132,10 @@ public class IntCode {
 	}
 
 	int getInput() {
-		return inputOpCode3;
+		return inputOpCode3[inputPointer++];
 	}
-	
-	public int[] parseLineToStack(String line) {
+
+	public static int[] parseLineToStack(String line) {
 		String[] arr = line.split(",");
 		int[] stack = new int[arr.length];
 		for (int i = 0; i < arr.length; i++) {
