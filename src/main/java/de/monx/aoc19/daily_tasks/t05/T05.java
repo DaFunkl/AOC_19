@@ -31,18 +31,18 @@ public class T05 extends TDay {
 	public TDay exec() {
 		Iterator<String> it = stream.iterator();
 		String line = it.next();
-		int[] stack = IntCode.parseLineToStack(line);
+		long[] stack = IntCode.parseLineToStack(line);
 		IntCode intCode = new IntCode();
 		if (execP == _EXEC_P1 || execP == _EXEC_BOTH) {
 			System.out.println("Part: 1");
 			intCode.init(new int[] { p1 }, stack.clone());
-			List<Integer> out = intCode.executeStack();
+			List<Long> out = intCode.executeStack();
 			System.out.println(Arrays.deepToString(out.toArray()));
 		}
 		if (execP == _EXEC_P2 || execP == _EXEC_BOTH) {
 			intCode.init(new int[] { p2 }, stack.clone());
 			System.out.println("Part: 2");
-			List<Integer> out = intCode.executeStack();
+			List<Long> out = intCode.executeStack();
 			System.out.println(Arrays.deepToString(out.toArray()));
 		}
 		return this;
