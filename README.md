@@ -11,7 +11,9 @@ Day* (with '*') haven't beend solved yet, and therefore, the link is broken
 | [Day 04](https://github.com/DaFunkl/AOC_19/blob/master/src/main/java/de/monx/aoc19/daily_tasks/t04/T04.java) | [Day 09](https://github.com/DaFunkl/AOC_19/blob/master/src/main/java/de/monx/aoc19/daily_tasks/t09/T09.java) | [Day 14*](https://github.com/DaFunkl/AOC_19/blob/master/src/main/java/de/monx/aoc19/daily_tasks/t14/T14.java)  | [Day 19*](https://github.com/DaFunkl/AOC_19/blob/master/src/main/java/de/monx/aoc19/daily_tasks/t19/T19.java)  | [Day 24*](https://github.com/DaFunkl/AOC_19/blob/master/src/main/java/de/monx/aoc19/daily_tasks/t24/T24.java) |
 | [Day 05](https://github.com/DaFunkl/AOC_19/blob/master/src/main/java/de/monx/aoc19/daily_tasks/t05/T05.java) | [Day 10*](https://github.com/DaFunkl/AOC_19/blob/master/src/main/java/de/monx/aoc19/daily_tasks/t10/T10.java) | [Day 15*](https://github.com/DaFunkl/AOC_19/blob/master/src/main/java/de/monx/aoc19/daily_tasks/t15/T15.java)  | [Day 20*](https://github.com/DaFunkl/AOC_19/blob/master/src/main/java/de/monx/aoc19/daily_tasks/t20/T20.java)  | [Day 25*](https://github.com/DaFunkl/AOC_19/blob/master/src/main/java/de/monx/aoc19/daily_tasks/t25/T25.java) |
 
-Written in Java. Using Maven, might import some Dependencies, don't need any yet.
+Written in Java. Using Maven, might import some Dependencies, don't need any yet.  
+Currently Lombok is the only used Dependency. If you haven't used it yet, IDEs (eG Eclipse, IntelliJ?) might show errors.  
+This should help: [Projekt Lombok (eclipse)](https://projectlombok.org/setup/eclipse),[Projekt Lombok (intellij)](https://projectlombok.org/setup/intellij)  
 Using TDay as basic Class for all daily tasks to "automate" executing each days task.
 Helper Package is used for Objects / static Classes / functions which might be used in other days aswell.
 * [Main Class](https://github.com/DaFunkl/AOC_19/blob/master/src/main/java/de/monx/aoc19/App.java)
