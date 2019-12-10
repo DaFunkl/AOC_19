@@ -16,8 +16,8 @@ public class App {
 	static int currentDay = 9;
 
 	public static void main(String[] args) {
-		executeDay();
-//		testInMiliSec(9, 9);
+//		executeDay();
+		testInMiliSec(9, 9);
 	}
 
 	static void executeDay() {

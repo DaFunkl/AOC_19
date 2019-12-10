@@ -95,7 +95,7 @@ public class IntCode {
 		int pointer = 0;
 		while (pointer < stack.length) {
 			int inc = 0;
-			if (stack[pointer] < 10) {
+			if (stack[pointer] < 10 || stack[pointer] == 99) {
 				inc = executeOpCode(pointer, new int[] { (int) stack[pointer], 0, 0, 0 }, false);
 			} else {
 				inc = executeOpCode(pointer, parseParameterModeOpCode((int) stack[pointer]), false);
