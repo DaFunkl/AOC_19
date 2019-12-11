@@ -19,7 +19,7 @@ public class App {
 
 	public static void main(String[] args) {
 		executeDay();
-//		testInMiliSec(10, 10);
+//		testInMiliSec(11, 11);
 	}
 
 	static void executeDay() {
@@ -36,7 +36,7 @@ public class App {
 		long start = System.currentTimeMillis();
 		for (int i = fromDay; i <= toDay; i++) {
 			String day = "" + i;
-			if(i < 10) {
+			if (i < 10) {
 				day = "0" + day;
 			}
 			String inputFile = "input";
@@ -56,18 +56,29 @@ public class App {
 	// @formatter:off
 	static TDay fetchDay(String day) {
 		switch (day) {
-		case "01": return new T01();
-		case "02": return new T02();
-		case "03": return new T03();
-		case "04": return new T04();
-		case "05": return new T05().setupP1P2Input(1, 5);
-		case "06": return new T06();
-		case "07": return new T07();
-		case "08": return new T08().setWT(25, 6);
-		case "09": return new T09().setInputP1(1).setInputP2(2);
-		case "10": return new T10();
-		case "11": return new T11();
-		
+		case "01":
+			return new T01();
+		case "02":
+			return new T02();
+		case "03":
+			return new T03();
+		case "04":
+			return new T04();
+		case "05":
+			return new T05().setupP1P2Input(1, 5);
+		case "06":
+			return new T06();
+		case "07":
+			return new T07();
+		case "08":
+			return new T08().setWT(25, 6);
+		case "09":
+			return new T09().setInputP1(1).setInputP2(2);
+		case "10":
+			return new T10();
+		case "11":
+			return new T11();
+
 		default:
 			System.err.println("Invalid Day");
 			return new TDay();

@@ -20,6 +20,10 @@ public class Vec2 {
 		return angle;
 	}
 
+	public Vec2 clone() {
+		return new Vec2(x, y);
+	}
+
 	public float getDistance(Vec2 target) {
 		int x = target.x - this.x;
 		int y = target.y - this.y;
@@ -40,6 +44,11 @@ public class Vec2 {
 
 	public Vec2 add(Vec2 v) {
 		return new Vec2(x + v.x, y + v.y);
+	}
+
+	public void addI(Vec2 v) {
+		x += v.x;
+		y += v.y;
 	}
 
 	public Vec2 sub(Vec2 v) {

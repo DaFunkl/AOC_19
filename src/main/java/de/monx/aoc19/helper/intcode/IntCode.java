@@ -51,6 +51,13 @@ public class IntCode {
 		return outputReg;
 	}
 
+	public List<Long> getAndResetOutput(){
+		List<Long> ret = output;
+		output = new ArrayList<>();
+		outputReg = 0;
+		return ret;
+	}
+	
 	public void setOutput(long out) {
 		this.outputReg = out;
 		outputReady = true;
@@ -66,7 +73,7 @@ public class IntCode {
 	public void setStack(long[] stack) {
 		this.stack = stack;
 	}
-
+	
 	public void setInput(int in) {
 		inputOpCode3 = new int[] { in };
 		inputPointer = 0;
