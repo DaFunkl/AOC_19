@@ -1,5 +1,9 @@
 package de.monx.aoc19;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 import de.monx.aoc19.daily_tasks.t01.T01;
 import de.monx.aoc19.daily_tasks.t02.T02;
 import de.monx.aoc19.daily_tasks.t03.T03;
@@ -19,10 +23,38 @@ public class App {
 	static int currentDay = 12;
 
 	public static void main(String[] args) {
-//		executeDay();
-		testInMiliSec(12, 12);
+		executeDay();
+//		testInMiliSec(1, 12, 10);
 	}
 
+	static void testInMiliSec(int fromDay, int toDay, int amt) {
+		Map<Integer, long[]> runs = new HashMap<>();
+		for (int i = 0; i < amt; i++) {
+			Map<Integer, Long> run = testInMiliSec(fromDay, toDay);
+			for (int key : run.keySet()) {
+				if (i == 0) {
+					long[] time = new long[amt];
+					time[0] = run.get(key);
+					runs.put(key, time);
+				} else {
+					runs.get(key)[i] = run.get(key);
+				}
+			}
+		}
+		for(int key : runs.keySet()) {
+			long[] times = runs.get(key);
+			System.out.println("Day: " + key + " avg: " + average(times) + " -> " + Arrays.toString(times));
+		}
+	}
+
+	static long average(long[] times) {
+		long sum = 0;
+		for(int i = 0; i < times.length; i++) {
+			sum += times[i];
+		}
+		return sum/times.length;
+	}
+	
 	static void executeDay() {
 		String day = "" + currentDay;
 		if (currentDay < 10) {
@@ -33,9 +65,10 @@ public class App {
 		execDay(day, inputFile);
 	}
 
-	static void testInMiliSec(int fromDay, int toDay) {
-		long start = System.currentTimeMillis();
+	static Map<Integer, Long> testInMiliSec(int fromDay, int toDay) {
+		Map<Integer, Long> ret = new HashMap<>();
 		for (int i = fromDay; i <= toDay; i++) {
+			long start = System.currentTimeMillis();
 			String day = "" + i;
 			if (i < 10) {
 				day = "0" + day;
@@ -44,9 +77,11 @@ public class App {
 
 			execDay(day, inputFile);
 			long end = System.currentTimeMillis();
-			System.out.println("--------------------> Time: " + (end - start) + " ms");
-			start = end;
+			long delta = end - start;
+			ret.put(i, delta);
+			System.out.println("--------------------> Time: " + delta + " ms");
 		}
+		return ret;
 	}
 
 	static void execDay(String day, String inputFile) {

@@ -11,41 +11,31 @@ import de.monx.aoc19.helper.Vec2;
 import de.monx.aoc19.helper.Vec3;
 
 public class T12 extends TDay {
-	int p1Steps = 1000;
+	int steps = 1000;
 
 	public T12 setP1Steps(int steps) {
-		p1Steps = steps;
+		this.steps = steps;
 		return this;
 	}
 
 	@Override
 	public TDay exec() {
 		List<Planet> planets = getInput();
-		part1(planets, p1Steps);
-		return this;
-	}
-
-	void part1(List<Planet> planets, int steps) {
 		boolean p2Found = false;
 		boolean p1Reached = false;
 		int step = 1;
 
+		Vec3 dimRep = new Vec3(-1, -1, -1);
 		Set<List<Vec2>> xLL = new HashSet<>();
 		xLL.add(getDimList(planets, 'x'));
-		int xFound = -1;
 		Set<List<Vec2>> yLL = new HashSet<>();
 		yLL.add(getDimList(planets, 'y'));
-		int yFound = -1;
 		Set<List<Vec2>> zLL = new HashSet<>();
 		zLL.add(getDimList(planets, 'z'));
-		int zFound = -1;
 
 		while (!(p2Found && p1Reached)) {
+			// planet Simulation ===========================================
 			List<Planet> planetsTemp = new ArrayList<>();
-//			if(step % 10 == 0) {
-//				System.out.println("Step: " + step);
-//				printPlanetsWithVelo(planets);
-//			}
 			for (int i = 0; i < planets.size(); i++) {
 				if (i == 0) {
 					planetsTemp.add(planets.get(0).clone());
@@ -61,80 +51,47 @@ public class T12 extends TDay {
 			}
 			planets = planetsTemp;
 
-			int energy = sumEnergy(planetsTemp);
-
-			if (xFound == -1) {
-				List<Vec2> l = getDimList(planets, 'x');
-				if (xLL.contains(l)) {
-					xFound = step;
-				} else {
-					xLL.add(l);
-				}
-			}
-			if (yFound == -1) {
-				List<Vec2> l = getDimList(planets, 'y');
-				if (yLL.contains(l)) {
-					yFound = step;
-				} else {
-					yLL.add(l);
-				}
-			}
-			if (zFound == -1) {
-				List<Vec2> l = getDimList(planets, 'z');
-				if (zLL.contains(l)) {
-					zFound = step;
-				} else {
-					zLL.add(l);
-				}
-			}
-
-			if (step++ == steps) {
-				System.out.println("Part1: " + energy);
-				p1Reached = true;
-			}
-
-			if (xFound != -1 && yFound != -1 && zFound != -1) {
+			// part 2 ======================================================
+			dimRep.x = didDimSeqReappear(planets, step, xLL, dimRep.x, 'x');
+			dimRep.y = didDimSeqReappear(planets, step, yLL, dimRep.y, 'y');
+			dimRep.z = didDimSeqReappear(planets, step, zLL, dimRep.z, 'z');
+			if (dimRep.x != -1 && dimRep.y != -1 && dimRep.z != -1) {
+				System.out.println("Part2: " + lcm(lcm(dimRep.x, dimRep.y), dimRep.z));
 				p2Found = true;
 			}
+			// part 1 ======================================================
+			if (step++ == steps) {
+				System.out.println("Part1: " + sumEnergy(planetsTemp));
+				p1Reached = true;
+			}
 		}
-		System.out.println("Part2: " + lcm(lcm(xFound, yFound), zFound) + " ->xFound: " + xFound + ", yFound: " + yFound
-				+ ", zFound: " + zFound);
+
+		return this;
+
 	}
 
-	/**
-	 * Calculate Lowest Common Multiplier
-	 */
+	private int didDimSeqReappear(List<Planet> planets, int step, Set<List<Vec2>> xLL, int xFound, char dim) {
+		if (xFound == -1) {
+			List<Vec2> l = getDimList(planets, dim);
+			if (xLL.contains(l)) {
+				xFound = step;
+			} else {
+				xLL.add(l);
+			}
+		}
+		return xFound;
+	}
+
 	public static long lcm(long a, long b) {
 		return (a * b) / gcf(a, b);
 	}
 
-	/**
-	 * Calculate Greatest Common Factor
-	 */
 	public static long gcf(long a, long b) {
 		if (b == 0) {
 			return a;
 		} else {
 			return (gcf(b, a % b));
 		}
-	}
-
-	int containsList(List<List<Vec2>> ll, List<Vec2> l) {
-		for (int i = 0; i < ll.size(); i++) {
-			if (isEQ(ll.get(i), l)) {
-				return i;
-			}
-		}
-		return -1;
-	}
-
-	boolean isEQ(List<Vec2> l1, List<Vec2> l2) {
-		for (int i = 0; i < l1.size(); i++) {
-			if (!l1.get(i).equals(l2.get(i))) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 	List<Vec2> getDimList(List<Planet> planets, char dim) {
@@ -164,22 +121,6 @@ public class T12 extends TDay {
 			sum += planet.energy();
 		}
 		return sum;
-	}
-
-	int gravityImpact(int a, int b) {
-		if (a < b) {
-			return 1;
-		} else if (a > b) {
-			return -1;
-		} else {
-			return 0;
-		}
-	}
-
-	void printPlanetsWithVelo(List<Planet> planets) {
-		for (int i = 0; i < planets.size(); i++) {
-			System.out.println(planets.get(i));
-		}
 	}
 
 	List<Planet> getInput() {
