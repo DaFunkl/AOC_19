@@ -11,15 +11,16 @@ import de.monx.aoc19.daily_tasks.t08.T08;
 import de.monx.aoc19.daily_tasks.t09.T09;
 import de.monx.aoc19.daily_tasks.t10.T10;
 import de.monx.aoc19.daily_tasks.t11.T11;
+import de.monx.aoc19.daily_tasks.t12.T12;
 import de.monx.aoc19.helper.TDay;
 
 public class App {
 	final static String path = "Input/";
-	static int currentDay = 11;
+	static int currentDay = 12;
 
 	public static void main(String[] args) {
-		executeDay();
-//		testInMiliSec(11, 11);
+//		executeDay();
+		testInMiliSec(12, 12);
 	}
 
 	static void executeDay() {
@@ -53,7 +54,6 @@ public class App {
 		tDay.init(path, day).inputFile(inputFile).exec().clean();
 	}
 
-	// @formatter:off
 	static TDay fetchDay(String day) {
 		switch (day) {
 		case "01":
@@ -78,11 +78,12 @@ public class App {
 			return new T10();
 		case "11":
 			return new T11();
+		case "12":
+			return new T12().setP1Steps(1000);
 
 		default:
 			System.err.println("Invalid Day");
 			return new TDay();
 		}
 	}
-	// @formatter:on
 }
