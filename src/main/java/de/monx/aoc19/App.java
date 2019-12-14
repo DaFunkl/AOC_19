@@ -29,6 +29,16 @@ public class App {
 //		testInMiliSec(12, 12, 1);
 	}
 
+	static void executeDay() {
+		String day = "" + currentDay;
+		if (currentDay < 10) {
+			day = "0" + day;
+		}
+		String inputFile = "ex1";
+
+		execDay(day, inputFile);
+	}
+	
 	static void testInMiliSec(int fromDay, int toDay, int amt) {
 		Map<Integer, long[]> runs = new HashMap<>();
 		for (int i = 0; i < amt; i++) {
@@ -43,7 +53,7 @@ public class App {
 				}
 			}
 		}
-		for(int key : runs.keySet()) {
+		for (int key : runs.keySet()) {
 			long[] times = runs.get(key);
 			System.out.println("Day: " + key + " avg: " + average(times) + " -> " + Arrays.toString(times));
 		}
@@ -51,20 +61,10 @@ public class App {
 
 	static long average(long[] times) {
 		long sum = 0;
-		for(int i = 0; i < times.length; i++) {
+		for (int i = 0; i < times.length; i++) {
 			sum += times[i];
 		}
-		return sum/times.length;
-	}
-	
-	static void executeDay() {
-		String day = "" + currentDay;
-		if (currentDay < 10) {
-			day = "0" + day;
-		}
-		String inputFile = "input";
-
-		execDay(day, inputFile);
+		return sum / times.length;
 	}
 
 	static Map<Integer, Long> testInMiliSec(int fromDay, int toDay) {

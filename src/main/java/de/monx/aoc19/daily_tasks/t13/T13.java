@@ -145,7 +145,7 @@ public class T13 extends TDay {
 		Map<Vec2, Integer> grid = new HashMap<>();
 		while (ic.execIO() != IntCode._STATE_HALT) {
 			List<Long> out = ic.getAndResetOutput();
-			grid = drawGrid(out, grid);
+			grid = handleGrid(out, grid);
 			if (inputIdx < inArr.length) {
 				ic.setInput(inArr[inputIdx++]);
 			} else {
@@ -153,7 +153,7 @@ public class T13 extends TDay {
 			}
 		}
 		List<Long> out = ic.getAndResetOutput();
-		drawGrid(out, grid);
+		handleGrid(out, grid);
 		scan.close();
 		System.out.println("input Was:");
 		for (int inp : input) {
@@ -180,14 +180,22 @@ public class T13 extends TDay {
 
 	final Vec2 scoreV = new Vec2(-1, 0);
 	Boundry b = new Boundry();
+	boolean draw = false;
 
-	Map<Vec2, Integer> drawGrid(List<Long> out, Map<Vec2, Integer> grid) {
+	Map<Vec2, Integer> handleGrid(List<Long> out, Map<Vec2, Integer> grid) {
 		for (int i = 0; i < out.size(); i += 3) {
 			long[] obj = { out.get(i), out.get(i + 1), out.get(i + 2) };
 			Vec2 v = new Vec2((int) obj[0], (int) obj[1]);
 			grid.put(v, (int) obj[2]);
 			b.refresh(v);
 		}
+		if(draw) {
+			drawGrid(grid);
+		}
+		return grid;
+	}
+
+	private void drawGrid(Map<Vec2, Integer> grid) {
 		// 0 is an empty tile. No game object appears in this tile.
 		// 1 is a wall tile. Walls are indestructible barriers.
 		// 2 is a block tile. Blocks can be broken by the ball.
@@ -218,7 +226,6 @@ public class T13 extends TDay {
 		for (String s : errStr) {
 			System.out.println("Error: " + s);
 		}
-		return grid;
 	}
 
 	long[] getInput() {

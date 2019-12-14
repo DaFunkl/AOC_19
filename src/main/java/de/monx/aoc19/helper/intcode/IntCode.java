@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import lombok.Data;
+@Data
 public class IntCode {
 	final static int _END = 99;
 	final static int _ADD = 1;
@@ -35,8 +37,6 @@ public class IntCode {
 	long[] stack = null;
 	int out = 0;
 	int state = _STATE_NONE;
-	int p1 = 0;
-	int p2 = 0;
 	List<Long> output = new ArrayList<>();
 	public long outputReg = 0;
 	boolean outputReady = false;
