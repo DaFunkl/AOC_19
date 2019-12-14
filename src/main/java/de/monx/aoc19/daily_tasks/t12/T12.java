@@ -56,7 +56,7 @@ public class T12 extends TDay {
 			dimRep.y = didDimSeqReappear(planets, step, yLL, dimRep.y, 'y');
 			dimRep.z = didDimSeqReappear(planets, step, zLL, dimRep.z, 'z');
 			if (dimRep.x != -1 && dimRep.y != -1 && dimRep.z != -1) {
-				System.out.println("Part2: " + lcm(lcm(dimRep.x, dimRep.y), dimRep.z));
+				System.out.println("Part2: " + lcm(lcm(dimRep.x, dimRep.y), dimRep.z) + " -> " + dimRep);
 				p2Found = true;
 			}
 			// part 1 ======================================================
