@@ -4,24 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Formular {
-	public List<Elem> input = new ArrayList<>();
-	public Elem output;
+	public List<Element> input = new ArrayList<>();
+	public Element output;
 
 	public Formular() {
 	}
 
-	public Formular(List<Elem> in, Elem out) {
+	public Formular(List<Element> in, Element out) {
 		input = in;
 		output = out;
 	}
 
 	public static Formular parseLine(String line) {
 		String[] arr = line.split("=>");
-		List<Elem> in = new ArrayList<>();
+		List<Element> in = new ArrayList<>();
 		for (String sarr : arr[0].split(",")) {
-			in.add(Elem.parseElem(sarr.trim()));
+			in.add(Element.parseElem(sarr.trim()));
 		}
-		Elem out = Elem.parseElem(arr[1].trim());
+		Element out = Element.parseElem(arr[1].trim());
 		return new Formular(in, out);
 	}
 
@@ -29,7 +29,7 @@ public class Formular {
 	public String toString() {
 		StringBuilder sb = new StringBuilder(output.toString());
 		sb.append(" <= ");
-		for (Elem e : input) {
+		for (Element e : input) {
 			sb.append(e);
 			sb.append(", ");
 		}
