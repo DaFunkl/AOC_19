@@ -57,11 +57,6 @@ public class T14 extends TDay {
 				continue;
 			}
 
-			if (element.equals(elem_Ore)) {
-				// this shouldn't be reachable
-				oreCount++;
-			}
-
 			Formular formular = map.get(element);
 			long mult = 1;
 			if (formular.output.amt < element.amt) {
