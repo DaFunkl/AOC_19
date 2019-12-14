@@ -24,8 +24,8 @@ public class App {
 	static int currentDay = 13;
 
 	public static void main(String[] args) {
-//		executeDay();
-		testInMiliSec(12, 12, 1);
+		executeDay();
+//		testInMiliSec(12, 12, 1);
 	}
 
 	static void testInMiliSec(int fromDay, int toDay, int amt) {
