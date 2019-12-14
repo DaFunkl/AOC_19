@@ -20,22 +20,36 @@ public class T14 extends TDay {
 	}
 
 	long part2(List<Formular> formulars, long p1Count) {
-		long maxOres = 1_000_000_000_000L;
-		long startGuess = maxOres / p1Count;
+		final long maxOres = 1_000_000_000_000L;
+		long minGuess = maxOres / p1Count;
+		long maxGuess = minGuess * 2 + 1;
+		long oreCount = maxOres + 1;
 		Element p2e = new Element("p2", 1);
 		Formular p2f = new Formular();
 		p2f.output = p2e;
 		Element fuel = elem_Fuel.clone();
-		// here's the magic, 568131L is an eyeballed value,
-		// I've guessed it by adjusting number from left to right,
-		// it was faster then writing a smart guesser :S
-		fuel.amt = startGuess + 568131L;
-		p2f.input.add(fuel);
-		formulars.add(p2f);
-		long ret = part1(formulars, p2e); 
-		System.out.println("=="+maxOres);
-		System.out.println("=="+ret);
-		return fuel.amt;
+		long prevOres = maxOres;
+		while (minGuess != maxGuess) {
+			long guess = (maxGuess + minGuess) / 2;
+			fuel.amt = guess;
+			p2f.input = new ArrayList<>();
+			p2f.input.add(fuel);
+			formulars.add(p2f);
+			oreCount = part1(formulars, p2e);
+
+			if (maxOres < oreCount) {
+				maxGuess -= (guess - minGuess) / 2;
+			} else if (maxOres > oreCount) {
+				minGuess += (guess - minGuess) / 2;
+			} else {
+				return guess;
+			}
+			if (prevOres == oreCount) {
+				return guess;
+			}
+			prevOres = oreCount;
+		}
+		return minGuess;
 	}
 
 	final static Element elem_Fuel = new Element("FUEL", 0);
