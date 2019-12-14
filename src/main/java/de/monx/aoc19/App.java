@@ -17,11 +17,12 @@ import de.monx.aoc19.daily_tasks.t10.T10;
 import de.monx.aoc19.daily_tasks.t11.T11;
 import de.monx.aoc19.daily_tasks.t12.T12;
 import de.monx.aoc19.daily_tasks.t13.T13;
+import de.monx.aoc19.daily_tasks.t14.T14;
 import de.monx.aoc19.helper.TDay;
 
 public class App {
 	final static String path = "Input/";
-	static int currentDay = 13;
+	static int currentDay = 14;
 
 	public static void main(String[] args) {
 		executeDay();
@@ -118,6 +119,8 @@ public class App {
 			return new T12().setP1Steps(1000);
 		case "13":
 			return new T13();
+		case "14":
+			return new T14();
 
 		default:
 			System.err.println("Invalid Day");
