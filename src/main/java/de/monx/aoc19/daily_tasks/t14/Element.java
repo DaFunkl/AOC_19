@@ -2,16 +2,20 @@ package de.monx.aoc19.daily_tasks.t14;
 
 public class Element {
 	public String name;
-	public int amt;
+	public long amt;
 
 	public Element() {
 	}
 
-	public Element(String name, int amt) {
+	public Element(String name, long amt) {
 		this.name = name;
 		this.amt = amt;
 	}
 
+	public Element clone() {
+		return new Element(name, amt);
+	}
+	
 	public static Element parseElem(String str) {
 		String[] sar = str.split(" ");
 		int amt = Integer.valueOf(sar[0].trim());

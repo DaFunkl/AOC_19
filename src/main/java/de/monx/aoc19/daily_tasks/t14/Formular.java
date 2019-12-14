@@ -25,6 +25,7 @@ public class Formular {
 		return new Formular(in, out);
 	}
 
+	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder(output.toString());

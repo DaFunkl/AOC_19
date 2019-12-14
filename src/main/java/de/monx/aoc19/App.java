@@ -26,7 +26,7 @@ public class App {
 
 	public static void main(String[] args) {
 		executeDay();
-//		testInMiliSec(12, 12, 1);
+//		testInMiliSec(14, 14, 1);
 	}
 
 	static void executeDay() {
@@ -34,7 +34,7 @@ public class App {
 		if (currentDay < 10) {
 			day = "0" + day;
 		}
-		String inputFile = "ex4";
+		String inputFile = "input";
 
 		execDay(day, inputFile);
 	}
