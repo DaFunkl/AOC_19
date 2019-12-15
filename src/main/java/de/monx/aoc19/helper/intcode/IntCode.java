@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import lombok.Data;
+
 @Data
 public class IntCode {
 	final static int _END = 99;
@@ -31,15 +32,29 @@ public class IntCode {
 	public final static int _STATE_HALT = 99;
 	public final static int _STATE_NONE = 0;
 
-	long relativBase = 0;
-	int[] inputOpCode3 = new int[0];
-	int inputPointer = 0;
-	long[] stack = null;
-	int out = 0;
-	int state = _STATE_NONE;
-	List<Long> output = new ArrayList<>();
-	public long outputReg = 0;
-	boolean outputReady = false;
+	private long relativBase = 0;
+	private int[] inputOpCode3 = new int[0];
+	private int inputPointer = 0;
+	private long[] stack = null;
+	private int out = 0;
+	private int state = _STATE_NONE;
+	private List<Long> output = new ArrayList<>();
+	private long outputReg = 0;
+	private boolean outputReady = false;
+
+	public IntCode clone() {
+		IntCode clone = new IntCode();
+		clone.setRelativBase(relativBase);
+		clone.setInputOpCode3(inputOpCode3.clone());
+		clone.setInputPointer(inputPointer);
+		clone.setStack(stack.clone());
+		clone.setOut(out);
+		clone.setState(state);
+		clone.setOutput(new ArrayList<>(output));
+		clone.setOutputReg(outputReg);
+		clone.setOutputReady(outputReady);
+		return clone;
+	}
 
 	public long getOutput() {
 		if (outputReady) {
@@ -51,14 +66,14 @@ public class IntCode {
 		return outputReg;
 	}
 
-	public List<Long> getAndResetOutput(){
+	public List<Long> getAndResetOutput() {
 		List<Long> ret = output;
 		output = new ArrayList<>();
 		outputReg = 0;
 		return ret;
 	}
-	
-	public void setOutput(long out) {
+
+	public void output(long out) {
 		this.outputReg = out;
 		outputReady = true;
 	}
@@ -73,7 +88,7 @@ public class IntCode {
 	public void setStack(long[] stack) {
 		this.stack = stack;
 	}
-	
+
 	public void setInput(int in) {
 		inputOpCode3 = new int[] { in };
 		inputPointer = 0;
@@ -144,11 +159,11 @@ public class IntCode {
 //		int arg1 = pmOp[1] == 0 ? stack[stack[pointer + _R1]] : stack[pointer + _R1];
 		if (pmOp[_OP] == _OUT) {
 			if (pmOp[1] == _MODE_IMIDIATE) {
-				setOutput(getStackAt(pointer + 1));
+				output(getStackAt(pointer + 1));
 			} else if (pmOp[1] == _MODE_PARAMETER) {
-				setOutput(getStackAt((int) getStackAt(pointer + 1)));
+				output(getStackAt((int) getStackAt(pointer + 1)));
 			} else {
-				setOutput(getStackAt((int) (getStackAt(pointer + 1) + relativBase)));
+				output(getStackAt((int) (getStackAt(pointer + 1) + relativBase)));
 			}
 			output.add(this.outputReg);
 			return 2;
