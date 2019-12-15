@@ -91,7 +91,7 @@ public class T07 extends TDay {
 		for (int i = 0; i < amp.length; i = (i + 1) % amp.length) {
 			amp[i].setInput((int) out);
 			ampState[i] = amp[i].execIO();
-			out = amp[i].outputReg;
+			out = amp[i].getOutputReg();
 			if (ampState[i] == IntCode._STATE_HALT) {
 				didHalt = true;
 			}
