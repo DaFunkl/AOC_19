@@ -20,11 +20,34 @@ public class T15 extends TDay {
 	public TDay exec() {
 		long[] input = getInput();
 		int[][] grid = getGrid(input);
-		System.out.println("Part1: " + part1(grid));
-		System.out.println("Part2: " + part2(grid));
+//		System.out.println("Part1: " + part1(grid));
+//		System.out.println("Part2: " + part2(grid));
+		execBoth(grid);
 		return this;
 	}
 
+	void execBoth(int[][] grid) {
+		Vec3 start = findWhat(grid, _OXYG);
+		List<Vec3> todo = new ArrayList<>();
+		todo.add(start);
+		List<Vec3> done = new ArrayList<>();
+		int max = 0;
+		while (!todo.isEmpty()) {
+			Vec3 v = todo.get(0);
+			if (v.z > max) {
+				max = v.z;
+			}
+			todo.remove(0);
+			if (grid[v.y][v.x] == _BOTY) {
+				System.out.println("found: " + v);
+				System.out.println("Part1: " + v.z);
+			}
+			addTodos(v, grid, done, todo);
+			done.add(v);
+		}
+		System.out.println("Part2: " + max);
+	}
+	
 	int part2(int[][] grid) {
 		Vec3 start = findWhat(grid, _OXYG);
 		List<Vec3> todo = new ArrayList<>();
@@ -33,7 +56,7 @@ public class T15 extends TDay {
 		int max = 0;
 		while (!todo.isEmpty()) {
 			Vec3 v = todo.get(0);
-			if(v.z > max) {
+			if (v.z > max) {
 				max = v.z;
 			}
 			todo.remove(0);
