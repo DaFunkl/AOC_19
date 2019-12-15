@@ -14,12 +14,15 @@ public class T14 extends TDay {
 	public TDay exec() {
 		List<Formular> formulars = getInput();
 		long p1Count = part1(formulars, elem_Fuel);
-		System.out.println("Part1: " + p1Count);
-		System.out.println("Part2: " + part2(formulars, p1Count));
+//		System.out.println("Part1: " + p1Count);
+//		System.out.println("Part2: " + part2(formulars, p1Count, 2));
+		for(int i = 1; i < 20; i++) {
+			part2(formulars, p1Count, i);
+		}
 		return this;
 	}
 
-	long part2(List<Formular> formulars, long p1Count) {
+	long part2(List<Formular> formulars, long p1Count, int f) {
 		long maxOres = 1_000_000_000_000L;
 		long startGuess = maxOres / p1Count;
 		Element p2e = new Element("p2", 1);
@@ -29,12 +32,13 @@ public class T14 extends TDay {
 		// here's the magic, 568131L is an eyeballed value,
 		// I've guessed it by adjusting number from left to right,
 		// it was faster then writing a smart guesser :S
-		fuel.amt = startGuess + 568131L;
+//		fuel.amt = startGuess + 568131L;
+		fuel.amt = f;
+		
 		p2f.input.add(fuel);
 		formulars.add(p2f);
 		long ret = part1(formulars, p2e); 
-		System.out.println("=="+maxOres);
-		System.out.println("=="+ret);
+		System.out.println(""+ret);
 		return fuel.amt;
 	}
 
