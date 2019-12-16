@@ -15,34 +15,28 @@ public class T16 extends TDay {
 	}
 
 	int part2(int[] input, int steps) {
-		int[] ret = new int[input.length * 10000];
-		for (int i = 0; i < ret.length; i++) {
-			ret[i] = input[i % input.length];
-		}
 		int offset = getFirstDigits(input, 7, 0);
+		int[] ret = new int[input.length * 10000 - offset];
+		for (int i = 0; i < ret.length; i++) {
+			ret[i] = input[(i + offset) % input.length];
+		}
 		for (int i = 0; i < 100; i++) {
-			for (int j = ret.length - 1; j >= ret.length / 2; j--) {
+			for (int j = ret.length - 1; j >= 0; j--) {
 				ret[j] = j == ret.length - 1 ? ret[j] : ret[j + 1] + ret[j];
 				ret[j] %= 10;
 			}
 		}
-		return getFirstDigits(ret, 8, offset);
+		return getFirstDigits(ret, 8, 0);
 	}
 
 	int[] part1(int[] input, int steps) {
 		int[] ret = input.clone();
-		for (int i = 0; i < 100; i++) {
-			for (int j = ret.length - 1; j >= ret.length / 2; j--) {
-				ret[j] = j == ret.length - 1 ? ret[j] : ret[j + 1] + ret[j];
-				ret[j] %= 10;
-			}
-		}
 		for (int step = 0; step < steps; step++) {
 			int[] temp = new int[ret.length];
 			for (int i = 0; i < ret.length; i++) {
 				int patternIdx = 0;
-				int piC = 0;
-				for (int j = 0; j < ret.length; j++) {
+				int piC = i;
+				for (int j = i; j < ret.length; j++) {
 					if (piC++ >= i) {
 						patternIdx = (patternIdx + 1) % pattern.length;
 						piC = 0;
