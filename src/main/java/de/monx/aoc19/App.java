@@ -59,7 +59,7 @@ public class App {
 		if (currentDay < 10) {
 			day = "0" + day;
 		}
-		String inputFile = "ex2";
+		String inputFile = "input";
 
 		execDay(day, inputFile);
 	}
