@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import de.monx.aoc19.daily_tasks.t03.Boundry;
+import de.monx.aoc19.helper.Animation;
 import de.monx.aoc19.helper.TDay;
 import de.monx.aoc19.helper.Vec2;
 import de.monx.aoc19.helper.Vec3;
@@ -119,6 +120,10 @@ public class T15 extends TDay {
 		todos.add(new Vec2());
 		states.put(new Vec2(), ic.clone());
 		grid.put(new Vec2(), _FREE);
+		
+		Animation animation = new Animation(500, 500);
+		animation.pane.drawGrid(gridToMatrix(grid, new Vec2()));
+		
 		while (!todos.isEmpty()) {
 			Vec2 v = todos.get(0);
 			todos.remove(0);
@@ -141,9 +146,11 @@ public class T15 extends TDay {
 				} else {
 					System.err.println("Wrong output: " + res + " -> " + newPos);
 				}
-				done.add(newPos);
+				done.add(newPos);		
+				animation.pane.drawGrid(gridToMatrix(grid, newPos));
 			}
 		}
+		animation.pane.drawGrid(gridToMatrix(grid, new Vec2()));
 		return gridToMatrix(grid, new Vec2());
 	}
 

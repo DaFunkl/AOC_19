@@ -19,6 +19,7 @@ import de.monx.aoc19.daily_tasks.t12.T12;
 import de.monx.aoc19.daily_tasks.t13.T13;
 import de.monx.aoc19.daily_tasks.t14.T14;
 import de.monx.aoc19.daily_tasks.t15.T15;
+import de.monx.aoc19.helper.Animation;
 import de.monx.aoc19.helper.TDay;
 
 public class App {
@@ -26,8 +27,8 @@ public class App {
 	static int currentDay = 15;
 
 	public static void main(String[] args) {
-//		executeDay();
-		testInMiliSec(15, 15, 1);
+		executeDay();
+//		testInMiliSec(15, 15, 1);
 	}
 
 	static void executeDay() {
