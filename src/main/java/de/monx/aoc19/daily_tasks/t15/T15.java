@@ -1,7 +1,6 @@
 package de.monx.aoc19.daily_tasks.t15;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -16,14 +15,56 @@ import de.monx.aoc19.helper.Vec3;
 import de.monx.aoc19.helper.intcode.IntCode;
 
 public class T15 extends TDay {
+	Vec2[] dirMoves = { //
+			new Vec2(0, -1), // up
+			new Vec2(0, 1), // down
+			new Vec2(-1, 0), // left
+			new Vec2(1, 0), // right
+	};
+
+	final static int _WALL = 0;
+	final static int _FREE = 1;
+	final static int _OXYG = 2;
+	final static int _BOTY = 3;
+	final static int _NONO = 4;
+	final static char[] car = { //
+			'█', // _WALL = 0;
+			' ', // _FREE = 1;
+			'X', // _OXYG = 2;
+			'B', // _BOTY = 3;
+			'#' // _NONO = 4;
+	};
 
 	@Override
 	public TDay exec() {
 		long[] input = getInput();
 		int[][] grid = getGrid(input);
-		System.out.println("Part1: " + part1(grid));
-		System.out.println("Part2: " + part2(grid));
+//		System.out.println("Part1: " + part1(grid));
+//		System.out.println("Part2: " + part2(grid));
+		execBoth(grid);
 		return this;
+	}
+
+	void execBoth(int[][] grid) {
+		Vec3 start = findWhat(grid, _OXYG);
+		List<Vec3> todo = new ArrayList<>();
+		todo.add(start);
+		List<Vec3> done = new ArrayList<>();
+		int max = 0;
+		while (!todo.isEmpty()) {
+			Vec3 v = todo.get(0);
+			if (v.z > max) {
+				max = v.z;
+			}
+			todo.remove(0);
+			if (grid[v.y][v.x] == _BOTY) {
+				System.out.println("found: " + v);
+				System.out.println("Part1: " + v.z);
+			}
+			addTodos(v, grid, done, todo);
+			done.add(v);
+		}
+		System.out.println("Part2: " + max);
 	}
 
 	int part2(int[][] grid) {
@@ -34,7 +75,7 @@ public class T15 extends TDay {
 		int max = 0;
 		while (!todo.isEmpty()) {
 			Vec3 v = todo.get(0);
-			if(v.z > max) {
+			if (v.z > max) {
 				max = v.z;
 			}
 			todo.remove(0);
@@ -96,19 +137,6 @@ public class T15 extends TDay {
 		return null;
 	}
 
-	final static int _WALL = 0;
-	final static int _FREE = 1;
-	final static int _OXYG = 2;
-	final static int _BOTY = 3;
-	final static int _NONO = 4;
-	final static char[] car = { //
-			'#', // _WALL = 0;
-			' ', // _FREE = 1;
-			'X', // _OXYG = 2;
-			'B', // _BOTY = 3;
-			'.' // _NONO = 4;
-	};
-
 	int[][] getGrid(long[] input) {
 		IntCode ic = new IntCode();
 		ic.setStack(input);
@@ -154,13 +182,6 @@ public class T15 extends TDay {
 		return gridToMatrix(grid, new Vec2());
 	}
 
-	Vec2[] dirMoves = { //
-			new Vec2(0, -1), // up
-			new Vec2(0, 1), // down
-			new Vec2(-1, 0), // left
-			new Vec2(1, 0), // right
-	};
-
 	int[][] gridToMatrix(Map<Vec2, Integer> grid, Vec2 bot) {
 		Boundry b = getBoundry(grid);
 		int xSize = b.getMax().x - b.getMin().x + 1;
@@ -196,20 +217,22 @@ public class T15 extends TDay {
 
 	void drawGrid(Map<Vec2, Integer> grid, Vec2 bot) {
 		Boundry b = getBoundry(grid);
-		System.out.println("===============================================");
+		StringBuilder sb = new StringBuilder();
+		sb.append("===============================================\n");
 		for (int y = b.getMin().y; y <= b.getMax().y; y++) {
 			for (int x = b.getMin().x; x <= b.getMax().x; x++) {
 				Vec2 v = new Vec2(x, y);
 				if (v.equals(bot)) {
-					System.out.print(car[_BOTY]);
+					sb.append(car[_BOTY]);
 				} else if (grid.containsKey(v)) {
-					System.out.print(car[grid.get(v)]);
+					sb.append(car[grid.get(v)]);
 				} else {
-					System.out.print(car[_NONO]);
+					sb.append(car[_NONO]);
 				}
 			}
-			System.out.println();
+			sb.append("\n");
 		}
+		System.out.println(sb.toString());
 	}
 
 	Boundry getBoundry(Map<Vec2, Integer> grid) {

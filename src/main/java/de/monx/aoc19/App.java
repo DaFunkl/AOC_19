@@ -19,16 +19,39 @@ import de.monx.aoc19.daily_tasks.t12.T12;
 import de.monx.aoc19.daily_tasks.t13.T13;
 import de.monx.aoc19.daily_tasks.t14.T14;
 import de.monx.aoc19.daily_tasks.t15.T15;
-import de.monx.aoc19.helper.Animation;
+import de.monx.aoc19.daily_tasks.t16.T16;
 import de.monx.aoc19.helper.TDay;
 
 public class App {
 	final static String path = "Input/";
-	static int currentDay = 15;
+	static int currentDay = 16;
 
 	public static void main(String[] args) {
 		executeDay();
 //		testInMiliSec(15, 15, 1);
+//		execWithArgs(args);
+	}
+
+	static void execWithArgs(String[] args) {
+		try {
+			if (args.length != 0) {
+				if (args[0].equals("-t")) {
+					int startDay = Integer.parseInt(args[1]);
+					int endDay = Integer.parseInt(args[2]);
+					int times = Integer.parseInt(args[3]);
+					testInMiliSec(startDay, endDay, times);
+					return;
+				} else if (args[0].equals("-e")) {
+					int day = Integer.parseInt(args[1]);
+					currentDay = day;
+					executeDay();
+					return;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		printHelp();
 	}
 
 	static void executeDay() {
@@ -36,7 +59,7 @@ public class App {
 		if (currentDay < 10) {
 			day = "0" + day;
 		}
-		String inputFile = "input";
+		String inputFile = "ex2";
 
 		execDay(day, inputFile);
 	}
@@ -125,10 +148,31 @@ public class App {
 			return new T14();
 		case "15":
 			return new T15();
-
+		case "16":
+			return new T16();
 		default:
-			System.err.println("Invalid Day");
+			System.err.println("Invalid Day: " + day);
 			return new TDay();
 		}
 	}
+
+	static void printHelp() {
+		System.out.println("===========================================================");
+		System.out.println("AOC_19 Help:");
+		System.out.println("arg[0]: { \"-e\" | \"-t\" }");
+		System.out.println("\t-e: use this to execute an implementation of a single day");
+		System.out.println("\t\tit takes one additional argument: day which should be executed");
+		System.out.println("\t\texample: -t 8 | executes Day 8");
+		System.out.println(
+				"\t-t: use this to execute multiple days multiple times, as bonus it's going to print hwo long each task took to run");
+		System.out.println("\t\tit takes three additional arguments: startDay, endDay, times");
+		System.out.println("\t\tstartDay: which is the first day being executed");
+		System.out.println("\t\tendDay: which is the last day being executed");
+		System.out.println("\t\ttims: how often are these days going to be executed");
+		System.out.println(
+				"\t\texample: -t 1 15 5 | these arguments are going to run task 1 - 15 (including 1 and 15). Each of them 5 times.");
+		System.out.println("===========================================================");
+
+	}
+
 }
