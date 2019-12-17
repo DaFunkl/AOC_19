@@ -32,13 +32,19 @@ public class T17 extends TDay {
 		int state = ic.execIO();
 		int inArrI = 0;
 		int inArrJ = 0;
+		boolean observing = false;
 		while (state != IntCode._STATE_HALT) {
-			if (inArrI >= inarr.length) {
+			if(observing) {
+				ic.setInput(10);
+				List<Long> out = ic.getAndResetOutput();
+				printGrid(longListToGrid(out));
+			} else if (inArrI >= inarr.length) {
 				ic.setInput((int) 'n');
 				state = ic.execIO();
 				ic.setInput(10);
 				state = ic.execIO();
 				break;
+//				observing = true;
 			} else if (inArrJ >= inarr[inArrI].length()) {
 				ic.setInput(10);
 				inArrI++;
@@ -62,14 +68,14 @@ public class T17 extends TDay {
 	}
 
 	int[][] getGrid(long[] input) {
-		int[][] ret = new int[51][45];
 		IntCode robo = new IntCode();
 		robo.setStack(input);
 		List<Long> out = robo.executeStack();
-		return longListToGrid(ret, out);
+		return longListToGrid(out);
 	}
 
-	private int[][] longListToGrid(int[][] ret, List<Long> out) {
+	private int[][] longListToGrid(List<Long> out) {
+		int[][] ret = new int[51][45];
 		int outIdx = 0;
 		for (int y = 0; y < ret.length; y++) {
 			for (int x = 0; x < ret[0].length; x++) {
