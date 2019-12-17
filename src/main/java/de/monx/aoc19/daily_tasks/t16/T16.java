@@ -8,12 +8,12 @@ public class T16 extends TDay {
 	@Override
 	public TDay exec() {
 		int[] input = getInput();
-		int[] p1Res = part1(input, 100);
-		System.out.println("Part1: " + getFirstDigits(p1Res, 8, 0));
+		System.out.println("Part1: " + part1(input, 100));
 		System.out.println("Part2: " + part2(input, 100));
 		return this;
 	}
 
+	
 	int part2(int[] input, int steps) {
 		int offset = getFirstDigits(input, 7, 0);
 		int[] ret = new int[input.length * 10000 - offset];
@@ -29,7 +29,8 @@ public class T16 extends TDay {
 		return getFirstDigits(ret, 8, 0);
 	}
 
-	int[] part1(int[] input, int steps) {
+	
+	int part1(int[] input, int steps) {
 		int[] ret = input.clone();
 		for (int step = 0; step < steps; step++) {
 			int[] temp = new int[ret.length];
@@ -52,7 +53,7 @@ public class T16 extends TDay {
 				ret[i] = Math.abs(temp[i]) % 10;
 			}
 		}
-		return ret;
+		return getFirstDigits(ret, 8, 0);
 	}
 
 	int getFirstDigits(int[] ret, int amt, int offset) {

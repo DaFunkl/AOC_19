@@ -66,6 +66,10 @@ public class IntCode {
 		return outputReg;
 	}
 
+	public List<Long> getOutputList() {
+		return output;
+	}
+
 	public List<Long> getAndResetOutput() {
 		List<Long> ret = output;
 		output = new ArrayList<>();

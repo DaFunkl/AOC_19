@@ -29,7 +29,7 @@ public class App {
 
 	public static void main(String[] args) {
 		executeDay();
-//		testInMiliSec(16, 16, 1);
+//		testInMiliSec(17, 17, 1);
 //		execWithArgs(args);
 	}
 
