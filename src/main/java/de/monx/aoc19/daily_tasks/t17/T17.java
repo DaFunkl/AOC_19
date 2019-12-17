@@ -19,7 +19,7 @@ public class T17 extends TDay {
 	}
 
 	long part2(long[] input) {
-		int ret = 0;
+		// parsed grid by hand, input/17/a0c19_17.xslx contains resolution of moves to inarr
 		String[] inarr = { //
 				"A,B,A,B,C,C,B,C,B,A", //
 				"R,12,L,8,R,12", //
