@@ -20,15 +20,16 @@ import de.monx.aoc19.daily_tasks.t13.T13;
 import de.monx.aoc19.daily_tasks.t14.T14;
 import de.monx.aoc19.daily_tasks.t15.T15;
 import de.monx.aoc19.daily_tasks.t16.T16;
+import de.monx.aoc19.daily_tasks.t17.T17;
 import de.monx.aoc19.helper.TDay;
 
 public class App {
 	final static String path = "Input/";
-	static int currentDay = 16;
+	static int currentDay = 17;
 
 	public static void main(String[] args) {
-//		executeDay();
-		testInMiliSec(16, 16, 1);
+		executeDay();
+//		testInMiliSec(16, 16, 1);
 //		execWithArgs(args);
 	}
 
@@ -150,6 +151,8 @@ public class App {
 			return new T15();
 		case "16":
 			return new T16();
+		case "17":
+			return new T17();
 		default:
 			System.err.println("Invalid Day: " + day);
 			return new TDay();
