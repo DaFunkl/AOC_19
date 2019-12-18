@@ -25,11 +25,11 @@ import de.monx.aoc19.helper.TDay;
 
 public class App {
 	final static String path = "Input/";
-	static int currentDay = 17;
+	static int currentDay = 18;
 
 	public static void main(String[] args) {
-		executeDay();
-//		testInMiliSec(17, 17, 1);
+//		executeDay();
+		testInMiliSec(12, 12, 10);
 //		execWithArgs(args);
 	}
 
