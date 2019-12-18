@@ -148,10 +148,10 @@ public class T15 extends TDay {
 		todos.add(new Vec2());
 		states.put(new Vec2(), ic.clone());
 		grid.put(new Vec2(), _FREE);
-		
+
 //		Animation animation = new Animation(500, 500);
 //		animation.pane.drawGrid(gridToMatrix(grid, new Vec2()));
-		
+
 		while (!todos.isEmpty()) {
 			Vec2 v = todos.get(0);
 			todos.remove(0);
@@ -174,7 +174,7 @@ public class T15 extends TDay {
 				} else {
 					System.err.println("Wrong output: " + res + " -> " + newPos);
 				}
-				done.add(newPos);		
+				done.add(newPos);
 //				animation.pane.drawGrid(gridToMatrix(grid, newPos));
 			}
 		}

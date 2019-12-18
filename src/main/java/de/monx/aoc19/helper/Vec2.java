@@ -7,6 +7,10 @@ public class Vec2 {
 	public Vec2() {
 	}
 
+	public Vec3 toVec3(int z) {
+		return new Vec3(x, y, z);
+	}
+
 	public Vec2(int x, int y) {
 		this.x = x;
 		this.y = y;

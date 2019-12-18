@@ -44,6 +44,10 @@ public class Vec3 {
 		return new Vec3(x / v.x, y / v.y, z / v.z);
 	}
 
+	public Vec2 toVec2() {
+		return new Vec2(x, y);
+	}
+
 	@Override
 	public String toString() {
 		return "Vec3:( " + x + " | " + y + " | " + z + ")";
