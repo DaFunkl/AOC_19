@@ -1,9 +1,7 @@
 package de.monx.aoc19.daily_tasks.t17;
 
-import java.util.Arrays;
 import java.util.List;
 
-import de.monx.aoc19.helper.BF;
 import de.monx.aoc19.helper.TDay;
 import de.monx.aoc19.helper.intcode.IntCode;
 
@@ -19,7 +17,8 @@ public class T17 extends TDay {
 	}
 
 	long part2(long[] input) {
-		// parsed grid by hand, input/17/a0c19_17.xslx contains resolution of moves to inarr
+		// parsed grid by hand, input/17/a0c19_17.xslx contains resolution of moves to
+		// inarr
 		String[] inarr = { //
 				"A,B,A,B,C,C,B,C,B,A", //
 				"R,12,L,8,R,12", //
@@ -34,7 +33,7 @@ public class T17 extends TDay {
 		int inArrJ = 0;
 		boolean observing = false;
 		while (state != IntCode._STATE_HALT) {
-			if(observing) {
+			if (observing) {
 				ic.setInput(10);
 				List<Long> out = ic.getAndResetOutput();
 				printGrid(longListToGrid(out));
@@ -55,7 +54,7 @@ public class T17 extends TDay {
 			state = ic.execIO();
 		}
 		List<Long> out = ic.getOutputList();
-		return out.get(out.size()-1);
+		return out.get(out.size() - 1);
 	}
 
 	void printGrid(int[][] grid) {
