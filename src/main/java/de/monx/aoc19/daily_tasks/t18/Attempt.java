@@ -81,7 +81,7 @@ public class Attempt {
 			for (Vec2 v : positions) {
 				str += v.hashCode() + ",";
 			}
-			return new String(arr) + str + steps;
+			return new String(arr) + str;
 		}
 	}
 
