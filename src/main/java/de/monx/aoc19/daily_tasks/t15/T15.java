@@ -8,10 +8,13 @@ import java.util.Map;
 import java.util.Set;
 
 import de.monx.aoc19.daily_tasks.t03.Boundry;
+import de.monx.aoc19.helper.BF;
 //import de.monx.aoc19.helper.Animation;
 import de.monx.aoc19.helper.TDay;
 import de.monx.aoc19.helper.Vec2;
 import de.monx.aoc19.helper.Vec3;
+import de.monx.aoc19.helper.animation.Animation;
+import de.monx.aoc19.helper.animation.DrawPane15;
 import de.monx.aoc19.helper.intcode.IntCode;
 
 public class T15 extends TDay {
@@ -39,9 +42,10 @@ public class T15 extends TDay {
 	public TDay exec() {
 		long[] input = getInput();
 		int[][] grid = getGrid(input);
+		drawGrid(grid);
 //		System.out.println("Part1: " + part1(grid));
 //		System.out.println("Part2: " + part2(grid));
-		execBoth(grid);
+//		execBoth(grid);
 		return this;
 	}
 
@@ -149,9 +153,9 @@ public class T15 extends TDay {
 		states.put(new Vec2(), ic.clone());
 		grid.put(new Vec2(), _FREE);
 
-//		Animation animation = new Animation(500, 500);
-//		animation.pane.drawGrid(gridToMatrix(grid, new Vec2()));
-
+		Animation animation = new Animation(500, 500, 15);
+		((DrawPane15)animation.pane).drawGrid(gridToMatrix(grid, new Vec2()));
+		BF.haltInput();
 		while (!todos.isEmpty()) {
 			Vec2 v = todos.get(0);
 			todos.remove(0);
@@ -175,10 +179,10 @@ public class T15 extends TDay {
 					System.err.println("Wrong output: " + res + " -> " + newPos);
 				}
 				done.add(newPos);
-//				animation.pane.drawGrid(gridToMatrix(grid, newPos));
+				((DrawPane15)animation.pane).drawGrid(gridToMatrix(grid, newPos));
 			}
 		}
-//		animation.pane.drawGrid(gridToMatrix(grid, new Vec2()));
+		((DrawPane15)animation.pane).drawGrid(gridToMatrix(grid, new Vec2()));
 		return gridToMatrix(grid, new Vec2());
 	}
 

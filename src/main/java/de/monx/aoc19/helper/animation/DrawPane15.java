@@ -32,10 +32,10 @@ public class DrawPane15 extends JPanel {
 		this.grid = grid;
 		revalidate();
 		repaint();
-		try {
-			Thread.sleep(10);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			Thread.sleep(1);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 	}
 }

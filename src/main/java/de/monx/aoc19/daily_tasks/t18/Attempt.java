@@ -40,10 +40,14 @@ public class Attempt {
 		this.steps = steps;
 	}
 	
-	public void collectKeyP2(char c, Vec3 v, int idx) {
+	public void collectKey(char c, Vec3 v, int idx) {
 		keysCollected.add(c);
+		if(idx<0) {
+			position = v;
+		} else {
 		positions[idx] = v.toVec2();
 		steps = v.z;
+		}
 	}
 	
 	public static Attempt initP2(Vec3 position) {

@@ -65,7 +65,7 @@ public class T18 extends TDay {
 //		}
 //		return out;
 //	}
-	
+
 	@Override
 	public TDay exec() {
 		List<char[]> input = getInput();
@@ -98,53 +98,58 @@ public class T18 extends TDay {
 
 			// look if an attempt finished,
 			for (int r = 0; r < 4; r++) {
-				Map<Character, Vec3> reachable = nextKeys(apt, in, r);
-				for (char c : reachable.keySet()) {
-//					Attempt nextApt = new Attempt(reachable.get(c), new HashSet<>(apt.getKeysCollected()));
-					Attempt nextApt = apt.clone();
-					nextApt.collectKeyP2(c, reachable.get(c), r);
-					String naKey = nextApt.keysStr();
-					if (nextApt.getStepCount() >= minSteps) {
-						continue;
-					}
-					if (dump.containsKey(naKey) && dump.get(naKey) <= nextApt.getStepCount()) {
-						continue;
-					} else {
-						dump.put(naKey, nextApt.getStepCount());
-					}
-					if (nextApt.getKeysCollected().size() == keysAmt) {
-						int steps = nextApt.getSteps();
-						if (steps < minSteps) {
-							minSteps = steps;
-						}
-						continue;
-					}
-					if (todo.isEmpty()) {
-						todo.add(nextApt);
-						continue;
-					}
-					// check whether this attempt is redundant or makes another redundant
-					for (int i = 0; i < todo.size(); i++) {
-						int compare = nextApt.compare(todo.get(i));
-						// compare nextAttempt with todo attempts
-						// compare == -1 -> can't be compared
-						// compare == 0 -> both are equal
-						// compare == 1 -> nextApt perfomrs better
-						// compare == 2 -> other performs better
-						if (compare == -1) {
-							todo.add(nextApt);
-							break;
-						} else if (compare == 1) { // since this todo performs better then
-							todo.remove(i--); // other, remove the other
-							todo.add(nextApt);
-							break;
-						} else if(compare == 2){// if compare == 2 other performs better, so don't add this
-							break;
-						}
-					}
-				}
-
+				minSteps = doMagic(in, minSteps, keysAmt, todo, dump, apt, r);
 			}
+		}
+		return minSteps;
+	}
+
+	private int doMagic(List<char[]> in, int minSteps, int keysAmt, List<Attempt> todo, Map<String, Integer> dump,
+			Attempt apt, int r) {
+		Map<Character, Vec3> reachable = nextKeys(apt, in, r);
+		for (char c : reachable.keySet()) {
+			Attempt nextApt = apt.clone();
+			nextApt.collectKey(c, reachable.get(c), r);
+			String naKey = nextApt.keysStr();
+			if (nextApt.getStepCount() >= minSteps) {
+				continue;
+			}
+			if (dump.containsKey(naKey) && dump.get(naKey) <= nextApt.getStepCount()) {
+				continue;
+			} else {
+				dump.put(naKey, nextApt.getStepCount());
+			}
+			if (nextApt.getKeysCollected().size() == keysAmt) {
+				int steps = nextApt.getStepCount();
+				if (steps < minSteps) {
+					minSteps = steps;
+				}
+				continue;
+			}
+			if (todo.isEmpty()) {
+				todo.add(nextApt);
+				continue;
+			}
+			// check whether this attempt is redundant or makes another redundant
+			todo.add(nextApt);
+//			for (int i = 0; i < todo.size(); i++) {
+//				int compare = nextApt.compare(todo.get(i));
+//				// compare nextAttempt with todo attempts
+//				// compare == -1 -> can't be compared
+//				// compare == 0 -> both are equal
+//				// compare == 1 -> nextApt perfomrs better
+//				// compare == 2 -> other performs better
+//				if (compare == -1) {
+//					todo.add(nextApt);
+//					break;
+//				} else if (compare == 1) { // since this todo performs better then
+//					todo.remove(i--); // other, remove the other
+//					todo.add(nextApt);
+//					break;
+//				} else if (compare == 2) {// if compare == 2 other performs better, so don't add this
+//					break;
+//				}
+//			}
 		}
 		return minSteps;
 	}
@@ -181,52 +186,52 @@ public class T18 extends TDay {
 
 //			draw(apt, in);
 
+			minSteps = doMagic(in, minSteps, keysAmt, todo, dump, apt, -1);
 			// look if an attempt finished,
-			Map<Character, Vec3> reachable = nextKeys(apt, in, -1);
-			for (char c : reachable.keySet()) {
-				Attempt nextApt = new Attempt(reachable.get(c), new HashSet<>(apt.getKeysCollected()));
-				nextApt.addKey(c);
-//				draw(nextApt, in);
-				String naKey = nextApt.keysStr();
-				if (nextApt.getStepCount() >= minSteps) {
-					continue;
-				}
-				if (dump.containsKey(naKey) && dump.get(naKey) <= nextApt.getStepCount()) {
-					continue;
-				} else {
-					dump.put(naKey, nextApt.getStepCount());
-				}
-				if (nextApt.getKeysCollected().size() == keysAmt) {
-					int steps = nextApt.getStepCount();
-					if (steps < minSteps) {
-						minSteps = steps;
-					}
-					continue;
-				}
-				if (todo.isEmpty()) {
-					todo.add(nextApt);
-					continue;
-				}
-				// check whether this attempt is redundant or makes another redundant
-				for (int i = 0; i < todo.size(); i++) {
-					int compare = nextApt.compare(todo.get(i));
-					// compare nextAttempt with todo attempts
-					// compare == -1 -> can't be compared
-					// compare == 0 -> both are equal
-					// compare == 1 -> nextApt perfomrs better
-					// compare == 2 -> other performs better
-					if (compare == -1) {
-						todo.add(nextApt);
-						break;
-					} else if (compare == 1) { // since this todo performs better then
-						todo.remove(i--); // other, remove the other
-						todo.add(nextApt);
-						break;
-					}  else if(compare == 2){// if compare == 2 other performs better, so don't add this
-						break;
-					}
-				}
-			}
+//			Map<Character, Vec3> reachable = nextKeys(apt, in, -1);
+//			for (char c : reachable.keySet()) {
+//				Attempt nextApt = apt.clone(); //new Attempt(reachable.get(c), new HashSet<>(apt.getKeysCollected()));
+//				nextApt.collectKey(c, reachable.get(c), -1);
+//				String naKey = nextApt.keysStr();
+//				if (nextApt.getStepCount() >= minSteps) {
+//					continue;
+//				}
+//				if (dump.containsKey(naKey) && dump.get(naKey) <= nextApt.getStepCount()) {
+//					continue;
+//				} else {
+//					dump.put(naKey, nextApt.getStepCount());
+//				}
+//				if (nextApt.getKeysCollected().size() == keysAmt) {
+//					int steps = nextApt.getStepCount();
+//					if (steps < minSteps) {
+//						minSteps = steps;
+//					}
+//					continue;
+//				}
+//				if (todo.isEmpty()) {
+//					todo.add(nextApt);
+//					continue;
+//				}
+//				// check whether this attempt is redundant or makes another redundant
+//				for (int i = 0; i < todo.size(); i++) {
+//					int compare = nextApt.compare(todo.get(i));
+//					// compare nextAttempt with todo attempts
+//					// compare == -1 -> can't be compared
+//					// compare == 0 -> both are equal
+//					// compare == 1 -> nextApt perfomrs better
+//					// compare == 2 -> other performs better
+//					if (compare == -1) {
+//						todo.add(nextApt);
+//						break;
+//					} else if (compare == 1) { // since this todo performs better then
+//						todo.remove(i--); // other, remove the other
+//						todo.add(nextApt);
+//						break;
+//					}  else if(compare == 2){// if compare == 2 other performs better, so don't add this
+//						break;
+//					}
+//				}
+//			}
 		}
 		return minSteps;
 	}
@@ -266,7 +271,7 @@ public class T18 extends TDay {
 	Map<Character, Vec3> nextKeys(Attempt attempt, List<char[]> map, int roboIdx) {
 		Map<Character, Vec3> reachable = new HashMap<>();
 //		List<char[]> drawCp = copyLAR(map);
-		
+
 		List<Vec3> allKeys = new ArrayList<>();
 		Vec3 position = new Vec3();
 		if (roboIdx == -1) {
