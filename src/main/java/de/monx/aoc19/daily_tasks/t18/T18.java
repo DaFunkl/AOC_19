@@ -12,6 +12,8 @@ import de.monx.aoc19.helper.BF;
 import de.monx.aoc19.helper.TDay;
 import de.monx.aoc19.helper.Vec2;
 import de.monx.aoc19.helper.Vec3;
+import de.monx.aoc19.helper.animation.Animation;
+import de.monx.aoc19.helper.animation.DrawPane18;
 
 public class T18 extends TDay {
 	// z is 1 to add a step automatically
@@ -28,9 +30,47 @@ public class T18 extends TDay {
 			new Vec2(1, -1) // down left
 	};
 
+//	Animation anim = new Animation(700, 700, 18);
+//	boolean enableDraw = true;
+//
+//	void draw(List<char[]> grid, Set<Character> keysCollected) {
+//		if (!enableDraw) {
+//			return;
+//		}
+//		((DrawPane18) anim.pane).drawGrid(grid, keysCollected);
+//	}
+//
+//	void draw(Attempt apt, List<char[]> input) {
+//		if (!enableDraw) {
+//			return;
+//		}
+//		List<char[]> newList = copyLAR(input);
+//		final char p = '$';
+//		if (apt.getPosition() != null) {
+//			Vec3 v = apt.getPosition();
+//			newList.get(v.y)[v.x] = p;
+//		} else {
+//			for (int i = 0; i < 4; i++) {
+//				Vec2 v = apt.getPositions()[i];
+//				newList.get(v.y)[v.x] = p;
+//			}
+//		}
+//		draw(newList, apt.getKeysCollected());
+//	};
+//
+//	List<char[]> copyLAR(List<char[]> in){
+//		List<char[]> out = new ArrayList<char[]>();
+//		for(char[] car : in) {
+//			out.add(car.clone());
+//		}
+//		return out;
+//	}
+	
 	@Override
 	public TDay exec() {
 		List<char[]> input = getInput();
+//		draw(input, new HashSet<>());
+
 		System.out.println("Part1: " + part1(input));
 		System.out.println("Part2: " + part2(input));
 		return this;
@@ -48,9 +88,13 @@ public class T18 extends TDay {
 		Map<String, Integer> dump = new HashMap<>();
 		todo.add(Attempt.initP2(position.toVec3(0)));
 		while (!todo.isEmpty()) {
+			// bfs
+			Attempt apt = todo.get(0);
+			todo.remove(0);
+
 			// dfs
-			Attempt apt = todo.get(todo.size() - 1);
-			todo.remove(todo.size() - 1);
+//			Attempt apt = todo.get(todo.size() - 1);
+//			todo.remove(todo.size() - 1);
 
 			// look if an attempt finished,
 			for (int r = 0; r < 4; r++) {
@@ -94,7 +138,9 @@ public class T18 extends TDay {
 							todo.remove(i--); // other, remove the other
 							todo.add(nextApt);
 							break;
-						} // if compare == 2 other performs better, so don't add this
+						} else if(compare == 2){// if compare == 2 other performs better, so don't add this
+							break;
+						}
 					}
 				}
 
@@ -124,6 +170,7 @@ public class T18 extends TDay {
 		todo.add(new Attempt(position.toVec3(0)));
 		int minSteps = Integer.MAX_VALUE;
 		while (!todo.isEmpty()) {
+
 			// dfs
 			Attempt apt = todo.get(todo.size() - 1);
 			todo.remove(todo.size() - 1);
@@ -132,11 +179,14 @@ public class T18 extends TDay {
 //			Attempt apt = todo.get(0);
 //			todo.remove(0);
 
+//			draw(apt, in);
+
 			// look if an attempt finished,
 			Map<Character, Vec3> reachable = nextKeys(apt, in, -1);
 			for (char c : reachable.keySet()) {
 				Attempt nextApt = new Attempt(reachable.get(c), new HashSet<>(apt.getKeysCollected()));
 				nextApt.addKey(c);
+//				draw(nextApt, in);
 				String naKey = nextApt.keysStr();
 				if (nextApt.getStepCount() >= minSteps) {
 					continue;
@@ -172,7 +222,9 @@ public class T18 extends TDay {
 						todo.remove(i--); // other, remove the other
 						todo.add(nextApt);
 						break;
-					} // if compare == 2 other performs better, so don't add this
+					}  else if(compare == 2){// if compare == 2 other performs better, so don't add this
+						break;
+					}
 				}
 			}
 		}
@@ -213,6 +265,8 @@ public class T18 extends TDay {
 
 	Map<Character, Vec3> nextKeys(Attempt attempt, List<char[]> map, int roboIdx) {
 		Map<Character, Vec3> reachable = new HashMap<>();
+//		List<char[]> drawCp = copyLAR(map);
+		
 		List<Vec3> allKeys = new ArrayList<>();
 		Vec3 position = new Vec3();
 		if (roboIdx == -1) {
@@ -224,6 +278,7 @@ public class T18 extends TDay {
 		Set<Vec2> done = new HashSet<>();
 		while (!allKeys.isEmpty()) {
 			Vec3 pos = allKeys.get(0);
+//			drawCp.get(pos.y)[pos.x] = '$';
 			allKeys.remove(0);
 			done.add(pos.toVec2());
 			char c = map.get(pos.y)[pos.x];
@@ -241,14 +296,15 @@ public class T18 extends TDay {
 				}
 			}
 		}
+//		draw(drawCp, attempt.getKeysCollected());
 		return reachable;
 	}
 
-	boolean isGate(char c) {
+	public static boolean isGate(char c) {
 		return (int) 'A' <= (int) c && (int) 'Z' >= (int) c;
 	}
 
-	boolean isKey(char c) {
+	public static boolean isKey(char c) {
 		return (int) 'a' <= (int) c && (int) 'z' >= (int) c;
 	}
 
