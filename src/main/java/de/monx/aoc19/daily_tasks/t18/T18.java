@@ -8,14 +8,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import de.monx.aoc19.helper.BF;
 import de.monx.aoc19.helper.TDay;
 import de.monx.aoc19.helper.Vec2;
 import de.monx.aoc19.helper.Vec3;
-import de.monx.aoc19.helper.animation.Animation;
-import de.monx.aoc19.helper.animation.DrawPane18;
 
 public class T18 extends TDay {
+	final static Vec2[] _DIRS = { //
+			new Vec2(0, -1), // up
+			new Vec2(0, 1), // down
+			new Vec2(-1, 0), // left
+			new Vec2(1, 0) // right
+	};
 	// z is 1 to add a step automatically
 	final Vec3[] _DIRS_ADDER = { //
 			new Vec3(-1, 0, 1), // up
@@ -69,7 +72,8 @@ public class T18 extends TDay {
 	@Override
 	public TDay exec() {
 		List<char[]> input = getInput();
-//		draw(input, new HashSet<Character>());
+//		draw(input, new HashSet<>());
+		closeDeadEnds(input);
 		System.out.println("Part1: " + part1(input));
 		System.out.println("Part2: " + part2(input));
 		return this;
@@ -346,4 +350,31 @@ public class T18 extends TDay {
 		}
 		return ret;
 	}
+
+	void closeDeadEnds(List<char[]> input) {
+		boolean allClosed = false;
+		while (!allClosed) {
+			allClosed = true;
+			for (int y = 1; y < input.size() - 1; y++) {
+				for (int x = 1; x < input.get(y).length - 1; x++) {
+					Vec2 cp = new Vec2(x, y);
+					if (input.get(cp.y)[cp.x] != '.') {
+						continue;
+					}
+					int wallCount = 0;
+					for (Vec2 d : _DIRS) {
+						Vec2 cv = cp.add(d);
+						if (input.get(cv.y)[cv.x] == '#') {
+							wallCount++;
+						}
+					}
+					if (wallCount == 3) {
+						input.get(cp.y)[cp.x] = '#';
+						allClosed = false;
+					}
+				}
+			}
+		}
+	}
+
 }
