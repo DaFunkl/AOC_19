@@ -69,13 +69,13 @@ public class T18 extends TDay {
 	@Override
 	public TDay exec() {
 		List<char[]> input = getInput();
-//		draw(input, new HashSet<>());
-
+//		draw(input, new HashSet<Character>());
 		System.out.println("Part1: " + part1(input));
 		System.out.println("Part2: " + part2(input));
 		return this;
 	}
 
+	
 	int part2(List<char[]> in) {
 		Map<Character, Vec2> objectMap = parseMap(in);
 		Vec2 position = objectMap.get('@');
