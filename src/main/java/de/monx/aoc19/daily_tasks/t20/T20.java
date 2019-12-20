@@ -40,7 +40,7 @@ public class T20 extends TDay {
 		}
 	}
 
-	boolean allowDraw = false;
+	boolean allowDraw = true;
 
 	@Override
 	public TDay exec() {

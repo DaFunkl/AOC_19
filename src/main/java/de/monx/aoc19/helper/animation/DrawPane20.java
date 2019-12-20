@@ -16,7 +16,7 @@ public class DrawPane20 extends JPanel {
 	List<char[]> grid = null;
 	Set<Vec2> visited = null;
 	Vec2 pos = null;
-	int scale = 13;
+	int scale = 5;
 	static Map<Character, Color> elementColor;
 	static {
 		elementColor = new HashMap<>();
