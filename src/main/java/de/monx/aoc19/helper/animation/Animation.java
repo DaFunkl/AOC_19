@@ -2,9 +2,7 @@ package de.monx.aoc19.helper.animation;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Toolkit;
-import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -20,6 +18,8 @@ public class Animation extends JFrame {
 		super("AOC_19");
 		if (day == 18) {
 			pane = new DrawPane18();
+		} else if (day == 20) {
+			pane = new DrawPane20();
 		} else {
 			pane = new DrawPane15();
 		}
