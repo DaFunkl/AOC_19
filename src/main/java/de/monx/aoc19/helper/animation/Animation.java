@@ -29,7 +29,7 @@ public class Animation extends JFrame {
 		int x = (int) ((dimension.getWidth() - getWidth()) / 2);
 		int y = (int) ((dimension.getHeight() - getHeight()) / 2);
 		setLocation(x, y);
-		setBackground(Color.darkGray);
+		setBackground(Color.black);
 		setTitle("AOC_19");
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

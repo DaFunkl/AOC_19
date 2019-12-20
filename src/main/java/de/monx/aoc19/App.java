@@ -28,8 +28,8 @@ import de.monx.aoc19.helper.TDay;
 
 public class App {
 	final static String path = "Input/";
-	static String input = "input";
-	static int currentDay = 18;
+	static String input = "ex3";
+	static int currentDay = 20;
 
 	public static void main(String[] args) {
 //		executeDay();
