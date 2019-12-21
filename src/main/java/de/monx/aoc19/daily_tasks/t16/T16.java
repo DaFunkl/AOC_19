@@ -9,7 +9,7 @@ public class T16 extends TDay {
 	public TDay exec() {
 		int[] input = getInput();
 		System.out.println("Part1: " + part1(input, 100));
-		System.out.println("Part2: " + part2(input, 100));
+//		System.out.println("Part2: " + part2(input, 100));
 		return this;
 	}
 

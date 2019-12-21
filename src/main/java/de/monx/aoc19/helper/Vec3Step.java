@@ -1,5 +1,8 @@
 package de.monx.aoc19.helper;
 
+import lombok.Data;
+
+@Data
 public class Vec3Step {
 	public Vec3 pos;
 	public int step;

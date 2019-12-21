@@ -52,7 +52,7 @@ public class DrawPane18 extends JPanel {
 		revalidate();
 		repaint();
 		try {
-			Thread.sleep(250);
+			Thread.sleep(0, 1);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

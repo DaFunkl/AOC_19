@@ -40,7 +40,7 @@ public class T20 extends TDay {
 		}
 	}
 
-	boolean allowDraw = false;
+	boolean allowDraw = true;
 
 	@Override
 	public TDay exec() {
@@ -50,15 +50,12 @@ public class T20 extends TDay {
 		List<char[]> input = getInput();
 		closeDeadEnds(input);
 		Map<Vec2, Vec2> portals = fetchPortals(input);
-		for (Vec2 v : portals.keySet()) {
-			System.out.println("Portal: " + v + " <=> " + portals.get(v));
-		}
 
 		if (allowDraw) {
 			draw(input, new HashSet<>(), _AA);
 			BF.haltInput();
 		}
-//		System.out.println("Part1: " + part1(input, portals));
+		System.out.println("Part1: " + part1(input, portals));
 		System.out.println("Part2: " + part2(input, portals));
 		return this;
 	}
@@ -126,24 +123,32 @@ public class T20 extends TDay {
 				if (!(c == '.' || isCapitalLetter(c))) {
 					continue;
 				}
-				if (nextV3S.pos.z == 0 && portals.get(_ZZ).equals(nextV3S.pos.toVec2())) {
-					return nextV3S.step;
+				if (portals.get(_ZZ).equals(nextV3S.pos.toVec2())) {
+					if(nextV3S.pos.z == 0) {
+						return nextV3S.step;
+					} else {
+						continue;
+					}
 				}
 				if (isCapitalLetter(c)) {
 					if (c == 'A' && portals.get(_AA).equals(v3s.pos.toVec2())) {
 						continue;
 					}
-					int levelAdj = fetchPortalTransition(v3s.pos, input);
+					int levelAdj = isOuterPortal(v3s.pos, input) ? -1 : 1;
+					if (nextV3S.pos.z <= 0 && levelAdj == -1) {
+						continue;
+					}
 					Vec2 port = portals.get(v3s.pos.toVec2());
 
 					nextV3S.pos.x = port.x;
 					nextV3S.pos.y = port.y;
+					nextV3S.pos.z += levelAdj;
 					c = input.get(nextV3S.pos.y)[nextV3S.pos.x];
 				}
-				Vec2 nPv2 = nextV3S.pos.toVec2();
-				if (done.containsKey(nPv2)) {
-					if (done.get(nPv2) > nextV3S.step) {
-//						done.put(nPv2, nextV3S.step);
+				Vec3 nPv3 = nextV3S.pos;
+				if (done.containsKey(nPv3)) {
+					if (done.get(nPv3) > nextV3S.step) {
+						done.put(nPv3, nextV3S.step);
 					} else {
 						continue;
 					}
@@ -155,9 +160,8 @@ public class T20 extends TDay {
 		return steps;
 	}
 
-	int fetchPortalTransition(Vec3 pos, List<char[]> in) {
-//		return pos.x == 3 || pos.y == 3
-		return 0;
+	boolean isOuterPortal(Vec3 pos, List<char[]> in) {
+		return pos.x == 2 || pos.y == 2 || pos.y == in.size() - 3 || pos.x == in.get(0).length - 3;
 	}
 
 	Map<Vec2, Vec2> fetchPortals(List<char[]> input) {
