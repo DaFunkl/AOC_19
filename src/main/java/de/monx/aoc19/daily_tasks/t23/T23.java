@@ -27,7 +27,6 @@ public class T23 extends TDay {
 		Set<Long> mem = new HashSet<>();
 		while (!received) {
 			if (queue.isEmpty()) {
-				idleFetch(nic, queue);
 				if (nat != null) {
 					if (mem.contains(nat.y)) {
 						System.out.println("Part2: " + nat.y);
@@ -37,6 +36,7 @@ public class T23 extends TDay {
 						sendAndUpdateQueue(nic, queue, nat.add(new Vec3L(0, 0, -255)));
 					}
 				}
+				idleFetch(nic, queue);
 			}
 			if (queue.isEmpty()) {
 				break;
