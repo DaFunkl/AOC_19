@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import lombok.Data;
+import lombok.Getter;
 
 @Data
 public class IntCode {
@@ -26,15 +27,18 @@ public class IntCode {
 	final static int _MODE_PARAMETER = 0;
 	final static int _MODE_IMIDIATE = 1;
 	final static int _MODE_RELATIVEBASE = 2;
+	public final static int _STATE_HALT = 99;
+	public final static int _STATE_NONE = 0;
 	public final static int _STATE_INPUT_WAITING = 1;
 	public final static int _STATE_INPUT_SUBMITTED = 2;
 	public final static int _STATE_INPUT_RESUMED = 3;
-	public final static int _STATE_HALT = 99;
-	public final static int _STATE_NONE = 0;
+	public final static String[] _STATE_STR = { //
+			"_STATE_NONE", "_STATE_INPUT_WAITING", "_STATE_INPUT_SUBMITTED", "_STATE_INPUT_RESUMED", };
 
 	private long relativBase = 0;
-	private int[] inputOpCode3 = new int[0];
+	private long[] inputOpCode3 = new long[0];
 	private int inputPointer = 0;
+	@Getter private int pointer = 0;
 	private long[] stack = null;
 	private int out = 0;
 	private int state = _STATE_NONE;
@@ -85,22 +89,34 @@ public class IntCode {
 	public void init(int[] input, long[] stack) {
 		output = new ArrayList<>();
 		setStack(stack);
-		inputOpCode3 = input;
+		inputOpCode3 = intArr2LongArr(input);
 		inputPointer = 0;
 	}
 
+	long[] intArr2LongArr(int[] input) {
+		long[] longInput = new long[input.length];
+		for(int i = 0; i < input.length; i++) {
+			longInput[i] = input[i];
+		}
+		return longInput;
+	}
+	
 	public void setStack(long[] stack) {
 		this.stack = stack;
 	}
 
 	public void setInput(int in) {
-		inputOpCode3 = new int[] { in };
+		inputOpCode3 = new long[] { in };
 		inputPointer = 0;
 		state = _STATE_INPUT_SUBMITTED;
 	}
 
-	int pointer = 0;
-
+	public void setInput(long in) {
+		inputOpCode3 = new long[] { in };
+		inputPointer = 0;
+		state = _STATE_INPUT_SUBMITTED;
+	}
+	
 	public int execIO() {
 		while (pointer < stack.length) {
 			int inc = 0;
@@ -277,7 +293,7 @@ public class IntCode {
 		return ret;
 	}
 
-	int getInput() {
+	long getInput() {
 		return inputOpCode3[inputPointer++];
 	}
 
@@ -288,5 +304,12 @@ public class IntCode {
 			stack[i] = Long.valueOf(arr[i]);
 		}
 		return stack;
+	}
+
+	public String stateStr() {
+		if (state == _STATE_HALT) {
+			return "_STATE_HALT";
+		} else
+			return _STATE_STR[state];
 	}
 }
