@@ -15,7 +15,7 @@ public class T23 extends TDay {
 	@Override
 	public TDay exec() {
 		long[] in = getInput();
-//		System.out.println("Part1: " + part1(in));
+		System.out.println("Part1: " + part1(in));
 		System.out.println("Part2: " + part2(in));
 		return this;
 	}
@@ -57,7 +57,7 @@ public class T23 extends TDay {
 				fillQueue(out, queue);
 			}
 		}
-		System.err.println("Didn't reach 255!");
+		System.err.println("Couldn't find the right value!");
 		return -1;
 	}
 
@@ -114,7 +114,6 @@ public class T23 extends TDay {
 			if (out.isEmpty()) {
 				continue;
 			}
-			printIC_OUT(out, i);
 			fillQueue(out, queue);
 			break;
 		}
@@ -122,7 +121,6 @@ public class T23 extends TDay {
 
 	IntCode[] initNIC(long[] stack, int amt) {
 		IntCode[] nic = new IntCode[50];
-		System.out.println("init");
 		for (int i = 0; i < nic.length; i++) {
 			nic[i] = new IntCode();
 			nic[i].setStack(stack.clone());

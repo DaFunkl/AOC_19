@@ -88,7 +88,7 @@ public class App {
 		}
 		for (int key : runs.keySet()) {
 			long[] times = runs.get(key);
-			System.out.println("Day: " + key + " avg: " + average(times) + " -> " + Arrays.toString(times));
+			System.out.println("Day: " + key + " avg: " + average(times) + " ms -> " + Arrays.toString(times));
 		}
 	}
 
