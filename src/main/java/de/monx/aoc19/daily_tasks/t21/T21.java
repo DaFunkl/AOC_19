@@ -12,29 +12,67 @@ public class T21 extends TDay {
 	@Override
 	public TDay exec() {
 		long[] in = getInput();
-		System.out.println("Part1: " + part1(in));
-//		System.out.println("Part2: " + part2(in));
+//		System.out.println("Part1: " + part1(in));
+		System.out.println("Part2: " + part2(in));
 		return this;
 	}
 
-	int part1(long[] opCode) {
+	long part2(long[] opCode) {
 		IntCode ic = new IntCode();
 		ic.setStack(opCode);
-		int state = ic.execIO();
+		ic.execIO();
 		printOut(ic.getAndResetOutput());
 		String input = ""//
-		// resetting T
-//				+ "NOT A T\n" //
-//				+ "AND D T\n" //
-//				+ "OR T J\n" //
-				
-//				+ "NOT B T\n" //
-				+ "NOT C J\n" //
+				+ "OR A T\n" //
+				+ "AND B T\n" //
+				+ "AND C T\n" //
+				+ "NOT T T\n" //
+				+ "OR E J\n" //
+				+ "OR H J\n" //
 				+ "AND T J\n" //
-				+ "NOT A T\n" //
-				+ "OR T J\n" //
 				+ "AND D J\n" //
+				+ "RUN\n";//
+		printOut(ic.getAndResetOutput());
+		for (char c : input.toCharArray()) {
+			System.out.print(c);
+			ic.setInput((int) c);
+			ic.execIO();
+		}
+		List<Long> ll = ic.getOutputList();
+		printOut(ll);
+		System.out.println(Arrays.toString(ll.toArray()));
+		return ll.get(ll.size() - 1);
+	}
 
+//P A B C D E F G H I J Name
+//  @        		  1 Z
+// @  @        
+//@    @       
+//# . X X # # # # # #  
+//  @        		  0 Y
+// @  @        
+//@    @       
+//# X X X . # # # # #  
+//  @        		  0 X
+// @  @        
+//@    @       
+//# # X . # . # # # #  
+//
+//	A	B	C	D	J	Name
+//	0	X	X	1	1	Z
+//	X	X	X	0	0	Y
+//	1	X	0	1	1	X
+	long part1(long[] opCode) {
+		IntCode ic = new IntCode();
+		ic.setStack(opCode);
+		ic.execIO();
+		printOut(ic.getAndResetOutput());
+		String input = ""//
+				+ "NOT C J\n" // Rule X
+				+ "AND A J\n" //
+				+ "NOT A T\n" // Rule Y
+				+ "OR T J\n" //
+				+ "AND D J\n" // Rule Z
 				+ "WALK\n";
 		printOut(ic.getAndResetOutput());
 		for (char c : input.toCharArray()) {
@@ -45,7 +83,7 @@ public class T21 extends TDay {
 		List<Long> ll = ic.getOutputList();
 		printOut(ll);
 		System.out.println(Arrays.toString(ll.toArray()));
-		return 0;
+		return ll.get(ll.size() - 1);
 	}
 
 	void printOut(List<Long> out) {
