@@ -15,12 +15,11 @@ public class T23 extends TDay {
 	@Override
 	public TDay exec() {
 		long[] in = getInput();
-		System.out.println("Part1: " + part1(in));
-		System.out.println("Part2: " + part2(in));
+		execBoth(in);
 		return this;
 	}
 
-	long part2(long[] stack) {
+	void execBoth(long[] stack) {
 		IntCode[] nic = initNIC(stack, 50);
 		boolean received = false;
 		List<Vec3L> queue = new ArrayList<>();
@@ -31,15 +30,11 @@ public class T23 extends TDay {
 				idleFetch(nic, queue);
 				if (nat != null) {
 					if (mem.contains(nat.y)) {
-						return nat.y;
+						System.out.println("Part2: " + nat.y);
+						return;
 					} else {
 						mem.add(nat.y);
-						Vec3L vc = nat.clone();
-						vc.z = 0;
-						List<Long> out = sendPacket(nic, vc);
-						if (!out.isEmpty()) {
-							fillQueue(out, queue);
-						}
+						sendAndUpdateQueue(nic, queue, nat.add(new Vec3L(0, 0, -255)));
 					}
 				}
 			}
@@ -49,41 +44,23 @@ public class T23 extends TDay {
 			Vec3L v = queue.get(0);
 			queue.remove(0);
 			if (v.z == 255) {
+				if (nat == null) {
+					System.out.println("Part1: " + v.y);
+				}
 				nat = v;
 				continue;
 			}
-			List<Long> out = sendPacket(nic, v);
-			if (!out.isEmpty()) {
-				fillQueue(out, queue);
-			}
+			sendAndUpdateQueue(nic, queue, v);
 		}
 		System.err.println("Couldn't find the right value!");
-		return -1;
 	}
 
-	long part1(long[] stack) {
-		IntCode[] nic = initNIC(stack, 50);
-		boolean received = false;
-		List<Vec3L> queue = new ArrayList<>();
-		while (!received) {
-			if (queue.isEmpty()) {
-				idleFetch(nic, queue);
-			}
-			if (queue.isEmpty()) {
-				break;
-			}
-			Vec3L v = queue.get(0);
-			queue.remove(0);
-			if (v.z == 255) {
-				return v.y;
-			}
-			List<Long> out = sendPacket(nic, v);
-			if (!out.isEmpty()) {
-				fillQueue(out, queue);
-			}
+	private List<Long> sendAndUpdateQueue(IntCode[] nic, List<Vec3L> queue, Vec3L v) {
+		List<Long> out = sendPacket(nic, v);
+		if (!out.isEmpty()) {
+			fillQueue(out, queue);
 		}
-		System.err.println("Didn't reach 255!");
-		return -1;
+		return out;
 	}
 
 	void fillQueue(List<Long> out, List<Vec3L> queue) {
