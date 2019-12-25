@@ -34,12 +34,12 @@ import de.monx.aoc19.helper.TDay;
 public class App {
 	final static String path = "Input/";
 	static String input = "input";
-	static int currentDay = 24;
+	static int currentDay = 25;
 
 	public static void main(String[] args) {
 //		executeDay();
-		testInMiliSec(currentDay, currentDay, 1);
-//		execWithArgs(args);
+//		testInMiliSec(currentDay, currentDay, 1);
+		execWithArgs(args);
 	}
 
 	static void execWithArgs(String[] args) {
