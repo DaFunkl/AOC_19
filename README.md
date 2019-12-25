@@ -1,7 +1,5 @@
 # AOC_19
-[Advent Of Code 2019](https://adventofcode.com/2019)
-
-Day* (with '*') haven't beend solved yet, and therefore, the link is broken
+[Advent Of Code 2019](https://adventofcode.com/2019)  
 
 | Day 1 - 5  | Day 6 - 10 | Day 11 - 15 | Day 15 - 20 | Day 21 - 25| 
 | ------------- | ------------- |  ------------- |  ------------- |  ------------- |
